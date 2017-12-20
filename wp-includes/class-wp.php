@@ -698,13 +698,11 @@ class WP {
 	}
 
 	/**
-	 * Sets up all of the variables required by the WordPress environment.
-	 *
-	 * The action {@see 'wp'} has one parameter that references the WP object. It
-	 * allows for accessing the properties and methods to further manipulate the
-	 * object.
-	 *
-	 * @since 2.0.0
+     * 设置WordPress环境必须的所有变量。
+
+	 *  {@see 'wp'}动作具有一个引用WP对象的参数。它允许访问WP对象的属性和方法。
+     *
+     * @since 2.0.0
 	 *
 	 * @param string|array $query_args Passed to parse_request().
 	 */
