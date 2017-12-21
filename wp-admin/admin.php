@@ -29,7 +29,7 @@ if ( ! WP_NETWORK_ADMIN && ! WP_USER_ADMIN ) {
 if ( isset($_GET['import']) && !defined('WP_LOAD_IMPORTERS') )
 	define('WP_LOAD_IMPORTERS', true);
 
-require_once(dirname(dirname(__FILE__)) . '/wp-load.php'); // 加载wordPress所有相关文件
+require_once(dirname(dirname(__FILE__)) . '/wp-load.php'); // 加载wordPress前端需要的相关文件
 
 nocache_headers(); //不缓存管理界面
 
@@ -80,14 +80,16 @@ if ( get_option('db_upgraded') ) { // 是否升级数据库
 	}
 }
 
-require_once(ABSPATH . 'wp-admin/includes/admin.php');
+require_once(ABSPATH . 'wp-admin/includes/admin.php'); // 加载后台管理需要的相关文件
 
 auth_redirect(); // 检查是否登录
 
+// 如果没有调度任务，则定义垃圾清理调度任务
 // Schedule trash collection
 if ( ! wp_next_scheduled( 'wp_scheduled_delete' ) && ! wp_installing() )
 	wp_schedule_event(time(), 'daily', 'wp_scheduled_delete');
 
+// 如果没有调度任务，则定义临时值到期清理的任务
 // Schedule Transient cleanup.
 if ( ! wp_next_scheduled( 'delete_expired_transients' ) && ! wp_installing() ) {
 	wp_schedule_event( time(), 'daily', 'delete_expired_transients' );

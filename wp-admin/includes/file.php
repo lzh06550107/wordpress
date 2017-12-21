@@ -2,17 +2,15 @@
 /**
  * Filesystem API: Top-level functionality
  *
- * Functions for reading, writing, modifying, and deleting files on the file system.
- * Includes functionality for theme-specific files as well as operations for uploading,
- * archiving, and rendering output when necessary.
- * 用于在文件系统上读取，写入，修改和删除文件的功能。包括主题特定文件的功能，以及必要时用于上载，归档和呈现输出的操作。
+ * 用于在文件系统上读取，写入，修改和删除文件的功能。包
+ * 括主题特定文件的上传，归档和渲染输出的操作。
  *
  * @package WordPress
  * @subpackage Filesystem
  * @since 2.3.0
  */
 
-/** The descriptions for theme files. */
+/** 对主题文件的描述*/
 $wp_file_descriptions = array(
 	'functions.php'         => __( 'Theme Functions' ),
 	'header.php'            => __( 'Theme Header' ),
@@ -65,8 +63,7 @@ $wp_file_descriptions = array(
 );
 
 /**
- * Get the description for standard WordPress theme files and other various standard
- * WordPress files
+ * 获取标准WordPress主题文件和其它各种标准WordPress文件的描述。
  *
  * @since 1.5.0
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * File contains all the administration image manipulation functions.
+ * 包含所有管理图片的操作函数。
  *
  * @package WordPress
  * @subpackage Administration

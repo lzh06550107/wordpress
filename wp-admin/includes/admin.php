@@ -29,55 +29,55 @@ require_once(ABSPATH . 'wp-admin/includes/comment.php'); // 定义评论相关�
 require_once(ABSPATH . 'wp-admin/includes/file.php'); // 定义文件相关的函数
 
 /** WordPress Image Administration API */
-require_once(ABSPATH . 'wp-admin/includes/image.php');
+require_once(ABSPATH . 'wp-admin/includes/image.php'); // 定义图片相关的函数
 
 /** WordPress Media Administration API */
-require_once(ABSPATH . 'wp-admin/includes/media.php');
+require_once(ABSPATH . 'wp-admin/includes/media.php'); // 定义媒体相关的函数
 
 /** WordPress Import Administration API */
-require_once(ABSPATH . 'wp-admin/includes/import.php');
+require_once(ABSPATH . 'wp-admin/includes/import.php'); // 定义导入器相关的函数
 
 /** WordPress Misc Administration API */
-require_once(ABSPATH . 'wp-admin/includes/misc.php');
+require_once(ABSPATH . 'wp-admin/includes/misc.php'); // 定义其它相关函数
 
 /** WordPress Options Administration API */
-require_once(ABSPATH . 'wp-admin/includes/options.php');
+require_once(ABSPATH . 'wp-admin/includes/options.php'); // 选项相关的函数
 
 /** WordPress Plugin Administration API */
-require_once(ABSPATH . 'wp-admin/includes/plugin.php');
+require_once(ABSPATH . 'wp-admin/includes/plugin.php'); // 插件相关的管理函数
 
 /** WordPress Post Administration API */
-require_once(ABSPATH . 'wp-admin/includes/post.php');
+require_once(ABSPATH . 'wp-admin/includes/post.php'); // 文章相关的函数
 
 /** WordPress Administration Screen API */
-require_once(ABSPATH . 'wp-admin/includes/class-wp-screen.php');
-require_once(ABSPATH . 'wp-admin/includes/screen.php');
+require_once(ABSPATH . 'wp-admin/includes/class-wp-screen.php'); // 定义WP_Screen类
+require_once(ABSPATH . 'wp-admin/includes/screen.php'); // 定义管理界面相关的函数
 
 /** WordPress Taxonomy Administration API */
-require_once(ABSPATH . 'wp-admin/includes/taxonomy.php');
+require_once(ABSPATH . 'wp-admin/includes/taxonomy.php'); // 定义分类法相关的函数
 
 /** WordPress Template Administration API */
-require_once(ABSPATH . 'wp-admin/includes/template.php');
+require_once(ABSPATH . 'wp-admin/includes/template.php'); // 定义模板相关的函数
 
 /** WordPress List Table Administration API and base class */
-require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');
-require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table-compat.php');
-require_once(ABSPATH . 'wp-admin/includes/list-table.php');
+require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php'); // 定义列表类
+require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table-compat.php'); // 向后兼容的列表类
+require_once(ABSPATH . 'wp-admin/includes/list-table.php'); // 定义列表相关函数
 
 /** WordPress Theme Administration API */
-require_once(ABSPATH . 'wp-admin/includes/theme.php');
+require_once(ABSPATH . 'wp-admin/includes/theme.php'); // 定义主题管理函数
 
 /** WordPress User Administration API */
-require_once(ABSPATH . 'wp-admin/includes/user.php');
+require_once(ABSPATH . 'wp-admin/includes/user.php'); // 定义用户管理函数
 
 /** WordPress Site Icon API */
-require_once(ABSPATH . 'wp-admin/includes/class-wp-site-icon.php');
+require_once(ABSPATH . 'wp-admin/includes/class-wp-site-icon.php'); // 定义WP_Site_Icon类
 
 /** WordPress Update Administration API */
-require_once(ABSPATH . 'wp-admin/includes/update.php');
+require_once(ABSPATH . 'wp-admin/includes/update.php'); // 定义系统更新相关函数
 
 /** WordPress Deprecated Administration API */
-require_once(ABSPATH . 'wp-admin/includes/deprecated.php');
+require_once(ABSPATH . 'wp-admin/includes/deprecated.php'); // 过时函数
 
 /** WordPress Multisite support API */
 if ( is_multisite() ) {

@@ -1,6 +1,7 @@
 <?php
 /**
  * Misc WordPress Administration API.
+ * 其他WordPress管理API。
  *
  * @package WordPress
  * @subpackage Administration
@@ -565,6 +566,7 @@ function wp_doc_link_parse( $content ) {
 
 /**
  * Saves option for number of rows when listing posts, pages, comments, etc.
+ * 列出帖子，页面，评论等时保存屏幕选项。
  *
  * @since 2.8.0
  */
