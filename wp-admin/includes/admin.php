@@ -1,6 +1,6 @@
 <?php
 /**
- * Core Administration API
+ * 管理界面核心API
  *
  * @package WordPress
  * @subpackage Administration
@@ -9,24 +9,24 @@
 
 if ( ! defined('WP_ADMIN') ) {
 	/*
-	 * This file is being included from a file other than wp-admin/admin.php, so
-	 * some setup was skipped. Make sure the admin message catalog is loaded since
-	 * load_default_textdomain() will not have done so in this context.
+	 * 这个文件被wp-admin / admin.php以外的文件包含时，会跳过了一些设置。
+	 * 因为load_default_textdomain()(这个在wp-settings.php的399行被调用)在此上下文中不会运行并加载翻译消息。
+	 * 为了确保管理消息目录已被加载，需要下面的动作。
 	 */
 	load_textdomain( 'default', WP_LANG_DIR . '/admin-' . get_locale() . '.mo' );
 }
 
 /** WordPress Administration Hooks */
-require_once(ABSPATH . 'wp-admin/includes/admin-filters.php');
+require_once(ABSPATH . 'wp-admin/includes/admin-filters.php'); // 管理页面加载的钩子
 
 /** WordPress Bookmark Administration API */
-require_once(ABSPATH . 'wp-admin/includes/bookmark.php');
+require_once(ABSPATH . 'wp-admin/includes/bookmark.php'); // 定义书签相关的函数
 
 /** WordPress Comment Administration API */
-require_once(ABSPATH . 'wp-admin/includes/comment.php');
+require_once(ABSPATH . 'wp-admin/includes/comment.php'); // 定义评论相关的函数
 
 /** WordPress Administration File API */
-require_once(ABSPATH . 'wp-admin/includes/file.php');
+require_once(ABSPATH . 'wp-admin/includes/file.php'); // 定义文件相关的函数
 
 /** WordPress Image Administration API */
 require_once(ABSPATH . 'wp-admin/includes/image.php');

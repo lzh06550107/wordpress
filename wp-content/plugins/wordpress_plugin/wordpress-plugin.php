@@ -66,8 +66,10 @@ class ReStructuredText_Plugin {
 
         //Allow translations
         //load_plugin_textdomain('restructuredtext', false, basename(dirname(__FILE__)).'/languages');
-        /*add_filter('save_post', array($this, 'save_post'), 0, 3);
-        add_filter('content_edit_pre', array($this, 'content_edit_pre'), 0, 2 );
+        add_filter('save_post', array($this, 'save_post'), 0, 3);
+        add_filter('the_posts', array($this, 'change_content'), 0, 2);
+        add_filter('tiny_mce_before_init', array($this, 'tinymc_setting'), 0, 1);
+        /*add_filter('content_edit_pre', array($this, 'content_edit_pre'), 0, 2 );
         add_filter('user_can_richedit', array($this, 'user_can_richedit'), 0);
         add_action('admin_print_footer_scripts', array($this, 'quicktags_settings'));*/
     }
@@ -78,24 +80,46 @@ class ReStructuredText_Plugin {
     */
     public function save_post($post_ID, $post, $update){
         global $wpdb;
-        if( $this->is_Restable($post->post_type) || ($post->post_type == 'revision' && $this->is_Restable($post->post_parent))){
+        if( ('rst' == $post->post_type) || ($post->post_type == 'revision' && 'rst' == $post->post_parent)){
+            require_once 'vendor/autoload.php';
             $post_ID = $post->ID;
             // Retrieve reST source.
             $source = $post->post_content;
             if (get_magic_quotes_gpc()){
                 $source = stripslashes($source);
             }
-            // Save source as meta.
-            update_post_meta($post_ID, 'post_rst', $source);
-            // Convert rst to html.
-            $content = $this->rst_to_html($source);
+
+            // 把rst源文档作为内容
+            $parser = new Gregwar\RST\Parser;
+            $document = $parser->parse($post->post_content);
+            $new_content = $document->renderDocument();
+
+            // 把rst翻译的文档作为元数据内容
+            update_post_meta($post_ID, 'post_rst', $new_content);
             // Save to the Database
             $where = array( 'ID' => $post_ID );
-            $wpdb->update($wpdb->posts, array( 'post_content' => $content), $where);
+            $wpdb->update($wpdb->posts, array( 'post_content' => $post->post_content), $where);
             clean_post_cache($post_ID);
             $post = get_post($post_ID);
         }
     }
+
+
+    public function change_content($posts, $wp_query) {
+        /* @var $post WP_Post */
+        foreach ( $posts as &$post) {
+            if($post->post_type == 'rst') {
+                $post->post_content = get_post_meta($post->ID,'post_rst')[0];
+            }
+        }
+        return $posts;
+    }
+
+    public function tinymc_setting($setting) {
+        $setting['entity_encoding'] = "raw";
+        return $setting;
+    }
+
     /*
     * Callback called to show post RST source instead of rendered content
     * inside the editor.
@@ -182,23 +206,6 @@ class ReStructuredText_Plugin {
         $content = str_replace('<!-- more -->', '<!--more-->', $content);
         return $content;
     }
-    /*
-    * Function to determine if restructuredtext has been enabled for the current post_type.
-    * If an integer is passed it assumed to be a post ID. Otherwise it assumed to be the
-    * the post type.
-    *
-    * @param (int|string) post ID or post type name
-    * @return (true|false). True if restructuredtext is enabled for this post type. False otherwise.
-    * @since 1.0
-    */
-    function is_Restable($id_or_type){
-        if(is_int($id_or_type))
-            $type = get_post_type($id_or_type);
-        else
-            $type = esc_attr($id_or_type);
-        $options = get_option(self::$domain);
-        $savedtypes = (array) $options['post_types'];
-        return in_array($type, $savedtypes);
-    }
+
 }
 $rst = new ReStructuredText_Plugin();

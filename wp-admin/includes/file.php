@@ -5,6 +5,7 @@
  * Functions for reading, writing, modifying, and deleting files on the file system.
  * Includes functionality for theme-specific files as well as operations for uploading,
  * archiving, and rendering output when necessary.
+ * 用于在文件系统上读取，写入，修改和删除文件的功能。包括主题特定文件的功能，以及必要时用于上载，归档和呈现输出的操作。
  *
  * @package WordPress
  * @subpackage Filesystem

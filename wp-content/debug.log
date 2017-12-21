@@ -136,3 +136,80 @@
 [18-Dec-2017 10:08:23 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\admin-ajax.php:22
 [18-Dec-2017 10:08:23 UTC] PHP   3. require_once() D:\php_source\wordpress\wp-load.php:37
 [18-Dec-2017 10:08:23 UTC] PHP   4. require_once() D:\php_source\wordpress\wp-config.php:97
+[21-Dec-2017 08:01:56 UTC] PHP Parse error:  syntax error, unexpected '}' in D:\php_source\wordpress\wp-content\plugins\wordpress_plugin\wordpress-plugin.php on line 74
+[21-Dec-2017 08:01:56 UTC] PHP Stack trace:
+[21-Dec-2017 08:01:56 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\admin-ajax.php:0
+[21-Dec-2017 08:01:56 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\admin-ajax.php:22
+[21-Dec-2017 08:01:56 UTC] PHP   3. require_once() D:\php_source\wordpress\wp-load.php:30
+[21-Dec-2017 08:01:56 UTC] PHP   4. require_once() D:\php_source\wordpress\wp-config.php:97
+[21-Dec-2017 08:06:07 UTC] PHP Parse error:  syntax error, unexpected '}' in D:\php_source\wordpress\wp-content\plugins\wordpress_plugin\wordpress-plugin.php on line 109
+[21-Dec-2017 08:06:07 UTC] PHP Stack trace:
+[21-Dec-2017 08:06:07 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\admin-ajax.php:0
+[21-Dec-2017 08:06:07 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\admin-ajax.php:22
+[21-Dec-2017 08:06:07 UTC] PHP   3. require_once() D:\php_source\wordpress\wp-load.php:30
+[21-Dec-2017 08:06:07 UTC] PHP   4. require_once() D:\php_source\wordpress\wp-config.php:97
+[21-Dec-2017 08:08:07 UTC] PHP Parse error:  syntax error, unexpected '}' in D:\php_source\wordpress\wp-content\plugins\wordpress_plugin\wordpress-plugin.php on line 110
+[21-Dec-2017 08:08:07 UTC] PHP Stack trace:
+[21-Dec-2017 08:08:07 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\admin-ajax.php:0
+[21-Dec-2017 08:08:07 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\admin-ajax.php:22
+[21-Dec-2017 08:08:07 UTC] PHP   3. require_once() D:\php_source\wordpress\wp-load.php:30
+[21-Dec-2017 08:08:07 UTC] PHP   4. require_once() D:\php_source\wordpress\wp-config.php:97
+[21-Dec-2017 08:09:47 UTC] PHP Notice:  wpdb::prepare的调用方法<strong>不正确</strong>。无效的值类型（object）。 请查阅<a href="https://codex.wordpress.org/Debugging_in_WordPress">调试WordPress</a>来获取更多信息。 （这个消息是在4.8.2版本添加的。） in D:\php_source\wordpress\wp-includes\functions.php on line 4146
+[21-Dec-2017 08:09:47 UTC] PHP Stack trace:
+[21-Dec-2017 08:09:47 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\post.php:0
+[21-Dec-2017 08:09:47 UTC] PHP   2. edit_post() D:\php_source\wordpress\wp-admin\post.php:194
+[21-Dec-2017 08:09:47 UTC] PHP   3. wp_update_post() D:\php_source\wordpress\wp-admin\includes\post.php:377
+[21-Dec-2017 08:09:47 UTC] PHP   4. wp_insert_post() D:\php_source\wordpress\wp-includes\post.php:3654
+[21-Dec-2017 08:09:47 UTC] PHP   5. do_action() D:\php_source\wordpress\wp-includes\post.php:3581
+[21-Dec-2017 08:09:47 UTC] PHP   6. WP_Hook->do_action() D:\php_source\wordpress\wp-includes\plugin.php:453
+[21-Dec-2017 08:09:47 UTC] PHP   7. WP_Hook->apply_filters() D:\php_source\wordpress\wp-includes\class-wp-hook.php:310
+[21-Dec-2017 08:09:47 UTC] PHP   8. call_user_func_array:{D:\php_source\wordpress\wp-includes\class-wp-hook.php:286}() D:\php_source\wordpress\wp-includes\class-wp-hook.php:286
+[21-Dec-2017 08:09:47 UTC] PHP   9. ReStructuredText_Plugin->save_post() D:\php_source\wordpress\wp-includes\class-wp-hook.php:286
+[21-Dec-2017 08:09:47 UTC] PHP  10. wpdb->update() D:\php_source\wordpress\wp-content\plugins\wordpress_plugin\wordpress-plugin.php:99
+[21-Dec-2017 08:09:47 UTC] PHP  11. wpdb->prepare() D:\php_source\wordpress\wp-includes\wp-db.php:2173
+[21-Dec-2017 08:09:47 UTC] PHP  12. _doing_it_wrong() D:\php_source\wordpress\wp-includes\wp-db.php:1253
+[21-Dec-2017 08:09:47 UTC] PHP  13. trigger_error() D:\php_source\wordpress\wp-includes\functions.php:4146
+[21-Dec-2017 08:09:47 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at D:\php_source\wordpress\wp-includes\functions.php:4146) in D:\php_source\wordpress\wp-admin\post.php on line 198
+[21-Dec-2017 08:09:47 UTC] PHP Stack trace:
+[21-Dec-2017 08:09:47 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\post.php:0
+[21-Dec-2017 08:09:47 UTC] PHP   2. setcookie() D:\php_source\wordpress\wp-admin\post.php:198
+[21-Dec-2017 08:09:47 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at D:\php_source\wordpress\wp-includes\functions.php:4146) in D:\php_source\wordpress\wp-includes\pluggable.php on line 1212
+[21-Dec-2017 08:09:47 UTC] PHP Stack trace:
+[21-Dec-2017 08:09:47 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\post.php:0
+[21-Dec-2017 08:09:47 UTC] PHP   2. redirect_post() D:\php_source\wordpress\wp-admin\post.php:201
+[21-Dec-2017 08:09:47 UTC] PHP   3. wp_redirect() D:\php_source\wordpress\wp-admin\includes\post.php:1870
+[21-Dec-2017 08:09:47 UTC] PHP   4. header() D:\php_source\wordpress\wp-includes\pluggable.php:1212
+[21-Dec-2017 09:12:10 UTC] PHP Parse error:  syntax error, unexpected '}' in D:\php_source\wordpress\wp-content\plugins\wordpress_plugin\wordpress-plugin.php on line 120
+[21-Dec-2017 09:12:10 UTC] PHP Stack trace:
+[21-Dec-2017 09:12:10 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\admin-ajax.php:0
+[21-Dec-2017 09:12:10 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\admin-ajax.php:22
+[21-Dec-2017 09:12:10 UTC] PHP   3. require_once() D:\php_source\wordpress\wp-load.php:30
+[21-Dec-2017 09:12:10 UTC] PHP   4. require_once() D:\php_source\wordpress\wp-config.php:97
+[21-Dec-2017 09:13:11 UTC] PHP Parse error:  syntax error, unexpected '}' in D:\php_source\wordpress\wp-content\plugins\wordpress_plugin\wordpress-plugin.php on line 120
+[21-Dec-2017 09:13:11 UTC] PHP Stack trace:
+[21-Dec-2017 09:13:11 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\admin-ajax.php:0
+[21-Dec-2017 09:13:11 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\admin-ajax.php:22
+[21-Dec-2017 09:13:11 UTC] PHP   3. require_once() D:\php_source\wordpress\wp-load.php:30
+[21-Dec-2017 09:13:11 UTC] PHP   4. require_once() D:\php_source\wordpress\wp-config.php:97
+[21-Dec-2017 09:15:11 UTC] PHP Parse error:  syntax error, unexpected '}' in D:\php_source\wordpress\wp-content\plugins\wordpress_plugin\wordpress-plugin.php on line 120
+[21-Dec-2017 09:15:11 UTC] PHP Stack trace:
+[21-Dec-2017 09:15:11 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\admin-ajax.php:0
+[21-Dec-2017 09:15:11 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\admin-ajax.php:22
+[21-Dec-2017 09:15:11 UTC] PHP   3. require_once() D:\php_source\wordpress\wp-load.php:30
+[21-Dec-2017 09:15:11 UTC] PHP   4. require_once() D:\php_source\wordpress\wp-config.php:97
+[21-Dec-2017 09:17:11 UTC] PHP Parse error:  syntax error, unexpected '}' in D:\php_source\wordpress\wp-content\plugins\wordpress_plugin\wordpress-plugin.php on line 120
+[21-Dec-2017 09:17:11 UTC] PHP Stack trace:
+[21-Dec-2017 09:17:11 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\admin-ajax.php:0
+[21-Dec-2017 09:17:11 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\admin-ajax.php:22
+[21-Dec-2017 09:17:11 UTC] PHP   3. require_once() D:\php_source\wordpress\wp-load.php:30
+[21-Dec-2017 09:17:11 UTC] PHP   4. require_once() D:\php_source\wordpress\wp-config.php:97
+[21-Dec-2017 13:25:08 UTC] PHP Warning:  发生了预料之外的错误。WordPress.org或是此服务器的配置可能出了一些问题。如果您持续遇到困难，请试试<a href="http://zh-cn.forums.wordpress.org/">支持论坛</a>。 （WordPress无法建立到WordPress.org的安全连接，请联系您的服务器管理员。） in D:\php_source\wordpress\wp-includes\update.php on line 526
+[21-Dec-2017 13:25:08 UTC] PHP Stack trace:
+[21-Dec-2017 13:25:08 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\themes.php:0
+[21-Dec-2017 13:25:08 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\themes.php:10
+[21-Dec-2017 13:25:08 UTC] PHP   3. do_action() D:\php_source\wordpress\wp-admin\admin.php:335
+[21-Dec-2017 13:25:08 UTC] PHP   4. WP_Hook->do_action() D:\php_source\wordpress\wp-includes\plugin.php:453
+[21-Dec-2017 13:25:08 UTC] PHP   5. WP_Hook->apply_filters() D:\php_source\wordpress\wp-includes\class-wp-hook.php:310
+[21-Dec-2017 13:25:08 UTC] PHP   6. call_user_func_array:{D:\php_source\wordpress\wp-includes\class-wp-hook.php:286}() D:\php_source\wordpress\wp-includes\class-wp-hook.php:286
+[21-Dec-2017 13:25:08 UTC] PHP   7. wp_update_themes() D:\php_source\wordpress\wp-includes\class-wp-hook.php:286
+[21-Dec-2017 13:25:08 UTC] PHP   8. trigger_error() D:\php_source\wordpress\wp-includes\update.php:526

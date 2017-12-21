@@ -8,31 +8,28 @@
  */
 
 /**
- * Core class used to implement a rewrite component API.
+ * 用来实现重写组件API的核心类。
  *
- * The WordPress Rewrite class writes the rewrite module rules to the .htaccess
- * file. It also handles parsing the request to get the correct setup for the
- * WordPress Query class.
+ * WordPress Rewrite类将重写模块规则写入.htaccess文件。
+ * 它还处理解析请求以获取WordPress Query类的正确设置。
  *
- * The Rewrite along with WP class function as a front controller for WordPress.
- * You can add rules to trigger your page view and processing using this
- * component. The full functionality of a front controller does not exist,
- * meaning you can't define how the template files load based on the rewrite
- * rules.
+ * WP类和Rewrite类作为WordPress的前端控制器。
+ * 您可以使用这个组件添加规则来触发您的页面查看和处理。
+ * 前端控制器的全部功能不存在，这意味着您无法根据重写规则定义模板文件的加载方式。
  *
  * @since 1.5.0
  */
 class WP_Rewrite {
 	/**
-	 * Permalink structure for posts.
-	 *
+	 * 帖子的永久连接结构。存储在数据库中的永久链接结构。这是您在“永久选项”页面上设置的内容
+     *
 	 * @since 1.5.0
 	 * @var string
 	 */
 	public $permalink_structure;
 
 	/**
-	 * Whether to add trailing slashes.
+	 * 是否添加尾斜线。
 	 *
 	 * @since 2.2.0
 	 * @var bool
@@ -40,7 +37,7 @@ class WP_Rewrite {
 	public $use_trailing_slashes;
 
 	/**
-	 * Base for the author permalink structure (example.com/$author_base/authorname).
+     * 作者永久链接基础(example.com/$author_base/authorname).
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -48,7 +45,7 @@ class WP_Rewrite {
 	var $author_base = 'author';
 
 	/**
-	 * Permalink structure for author archives.
+     * 作者归档的永久链接结构。
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -56,7 +53,10 @@ class WP_Rewrite {
 	var $author_structure;
 
 	/**
-	 * Permalink structure for date archives.
+     * 日期归档的永久链接结构。
+     *
+     * 尝试使用'%year%/%monthnum%/%day%', '%day%/%monthnum%/%year%' 或者'%monthnum%/%day%/%year%'
+     * 但是如果在你的$ permalink_structure中没有检测到这些，默认为'%year%/%monthnum%/%day%'
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -64,7 +64,7 @@ class WP_Rewrite {
 	var $date_structure;
 
 	/**
-	 * Permalink structure for pages.
+     * 页面的永久链接结构。
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -72,7 +72,7 @@ class WP_Rewrite {
 	var $page_structure;
 
 	/**
-	 * Base of the search permalink structure (example.com/$search_base/query).
+     * 搜索永久链接基础 (example.com/$search_base/query).
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -80,7 +80,7 @@ class WP_Rewrite {
 	var $search_base = 'search';
 
 	/**
-	 * Permalink structure for searches.
+     * 搜索的永久链接结构。这只是$ search_base加'％search％'。
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -88,7 +88,7 @@ class WP_Rewrite {
 	var $search_structure;
 
 	/**
-	 * Comments permalink base.
+     * 评论的永久链接基础。
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -96,7 +96,7 @@ class WP_Rewrite {
 	var $comments_base = 'comments';
 
 	/**
-	 * Pagination permalink base.
+     * 分页永久链接基础
 	 *
 	 * @since 3.1.0
 	 * @var string
@@ -104,7 +104,7 @@ class WP_Rewrite {
 	public $pagination_base = 'page';
 
 	/**
-	 * Comments pagination permalink base.
+     * 评论分页永久链接基础
 	 *
 	 * @since 4.2.0
 	 * @var string
@@ -112,7 +112,7 @@ class WP_Rewrite {
 	var $comments_pagination_base = 'comment-page';
 
 	/**
-	 * Feed permalink base.
+     * Feed永久链接基础
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -120,7 +120,7 @@ class WP_Rewrite {
 	var $feed_base = 'feed';
 
 	/**
-	 * Comments feed permalink structure.
+     * 评论feed永久链接结构，这只是$ comments_base加$ feed_base加'％feed％'。
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -128,7 +128,7 @@ class WP_Rewrite {
 	var $comment_feed_structure;
 
 	/**
-	 * Feed request permalink structure.
+     * Feed请求永久链接结构。这只是$ feed_base加'％feed％'。
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -136,7 +136,9 @@ class WP_Rewrite {
 	var $feed_structure;
 
 	/**
-	 * The static portion of the post permalink structure.
+	 * 帖子永久链接结构的静态部分。
+     *
+     *  在$permalink_structure前面添加的标签
 	 *
 	 * If the permalink structure is "/archive/%post_id%" then the front
 	 * is "/archive/". If the permalink structure is "/%year%/%postname%/"
@@ -150,7 +152,7 @@ class WP_Rewrite {
 	public $front;
 
 	/**
-	 * The prefix for all permalink structures.
+	 * 所有永久链接结构的前缀。
 	 *
 	 * If PATHINFO/index permalinks are in use then the root is the value of
 	 * `WP_Rewrite::$index` with a trailing slash appended. Otherwise the root
@@ -165,7 +167,7 @@ class WP_Rewrite {
 	public $root = '';
 
 	/**
-	 * The name of the index file which is the entry point to all requests.
+	 * index文件的名称，它是所有请求的入口点。
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -173,7 +175,7 @@ class WP_Rewrite {
 	public $index = 'index.php';
 
 	/**
-	 * Variable name to use for regex matches in the rewritten query.
+	 * 在重写的查询中用于正则表达式匹配的变量名称。
 	 *
 	 * @since 1.5.0
 	 * @var string
@@ -181,7 +183,7 @@ class WP_Rewrite {
 	var $matches = '';
 
 	/**
-	 * Rewrite rules to match against the request to find the redirect or query.
+	 * 用来匹配请求来查找重定向或查询的重写规则。
 	 *
 	 * @since 1.5.0
 	 * @var array
@@ -189,8 +191,8 @@ class WP_Rewrite {
 	var $rules;
 
 	/**
-	 * Additional rules added external to the rewrite class.
-	 *
+	 * 额外添加的重写规则。
+     *
 	 * Those not generated by the class, see add_rewrite_rule().
 	 *
 	 * @since 2.1.0
@@ -199,7 +201,7 @@ class WP_Rewrite {
 	var $extra_rules = array();
 
 	/**
-	 * Additional rules that belong at the beginning to match first.
+     * 首先被匹配的其他规则。
 	 *
 	 * Those not generated by the class, see add_rewrite_rule().
 	 *
@@ -209,10 +211,9 @@ class WP_Rewrite {
 	var $extra_rules_top = array();
 
 	/**
-	 * Rules that don't redirect to WordPress' index.php.
+	 * 不重定向到WordPress的index.php的规则。
 	 *
-	 * These rules are written to the mod_rewrite portion of the .htaccess,
-	 * and are added by add_external_rule().
+     * 这些规则被写入.htaccess的mod_rewrite部分，它由add_external_rule()添加。（因此根本不应该由WP处理）
 	 *
 	 * @since 2.1.0
 	 * @var array
@@ -220,8 +221,8 @@ class WP_Rewrite {
 	var $non_wp_rules = array();
 
 	/**
-	 * Extra permalink structures, e.g. categories, added by add_permastruct().
-	 *
+     * 额外的永久链接结构，e.g. categories, added by add_permastruct().
+     *
 	 * @since 2.1.0
 	 * @var array
 	 */
@@ -266,13 +267,13 @@ class WP_Rewrite {
 	public $use_verbose_page_rules = true;
 
 	/**
-	 * Rewrite tags that can be used in permalink structures.
+     * 能够用在永久链接结构中的重写标签
 	 *
-	 * These are translated into the regular expressions stored in
-	 * `WP_Rewrite::$rewritereplace` and are rewritten to the query
-	 * variables listed in WP_Rewrite::$queryreplace.
+     * 这些被转换成正则表达式存储在`WP_Rewrite :: $ rewritereplace`中，
+     * 并被重写为WP_Rewrite :: $ queryreplace中列出的查询变量。
+     *
 	 *
-	 * Additional tags can be added with add_rewrite_tag().
+     * 可以使用add_rewrite_tag()增加额外的标签。
 	 *
 	 * @since 1.5.0
 	 * @var array
@@ -292,8 +293,7 @@ class WP_Rewrite {
 	);
 
 	/**
-	 * Regular expressions to be substituted into rewrite rules in place
-	 * of rewrite tags, see WP_Rewrite::$rewritecode.
+     * 在重写标签规则被替换成正则表达式的重写规则
 	 *
 	 * @since 1.5.0
 	 * @var array
@@ -313,7 +313,7 @@ class WP_Rewrite {
 	);
 
 	/**
-	 * Query variables that rewrite tags map to, see WP_Rewrite::$rewritecode.
+     * 重写标签映射的查询变量，查看WP_Rewrite::$rewritecode.
 	 *
 	 * @since 1.5.0
 	 * @var array
@@ -341,9 +341,10 @@ class WP_Rewrite {
 	public $feeds = array( 'feed', 'rdf', 'rss', 'rss2', 'atom' );
 
 	/**
-	 * Determines whether permalinks are being used.
+     * 如果使用任何永久链接结构，则返回true
 	 *
 	 * This can be either rewrite module or permalink in the HTTP query string.
+     * 这可能是重写模块(用重写模块实现)或者路径信息永久链接(用PATHINFO实现)
 	 *
 	 * @since 1.5.0
 	 *
@@ -354,7 +355,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Determines whether permalinks are being used and rewrite module is not enabled.
+	 * 如果您的博客使用PATHINFO固定链接，则返回true。
 	 *
 	 * Means that permalink links are enabled and index.php is in the URL.
 	 *
@@ -372,7 +373,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Determines whether permalinks are being used and rewrite module is enabled.
+     * 返回true您的博客通过mod_rewrite使用“漂亮”永久链接。
 	 *
 	 * Using permalinks and index.php is not in the URL.
 	 *
@@ -472,19 +473,16 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieves date permalink structure, with year, month, and day.
-	 *
-	 * The permalink structure for the date, if not set already depends on the
-	 * permalink structure. It can be one of three formats. The first is year,
-	 * month, day; the second is day, month, year; and the last format is month,
-	 * day, year. These are matched against the permalink structure for which
-	 * one is used. If none matches, then the default will be used, which is
-	 * year, month, day.
+     * 检索日期固定链接结构，包括年份，月份和日期。
+     *
+     * 日期的永久链接结构（如果尚未设置）取决于永久链接结构。 它可以是三种格式之一。 第一个是年，月，日; 二是日，月，年; 最后的格式是月份，日期，年份。 这些是匹配使用的永久链接结构。 如果没有匹配，则使用默认值，即年，月，日。
 	 *
 	 * Prevents post ID and date permalinks from overlapping. In the case of
 	 * post_id, the date permalink will be prepended with front permalink with
 	 * 'date/' before the actual permalink to form the complete date permalink
 	 * structure.
+     * 防止帖子ID和日期固定链接重叠。 在post_id的情况下，
+     * 永久链接的日期将在实际的永久链接之前与前面的永久链接一起加上“日期/”，以形成完整的日期永久链接结构。
 	 *
 	 * @since 1.5.0
 	 *
@@ -594,12 +592,10 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieves the permalink structure for categories.
+     * 检索category永久链接结构。
 	 *
-	 * If the category_base property has no value, then the category structure
-	 * will have the front property value, followed by 'category', and finally
-	 * '%category%'. If it does, then the root property will be used, along with
-	 * the category_base property value.
+     * 如果category_base属性没有值，那么category结构将具有front属性值，
+     * 随后是“category”，最后是“％category％”。 如果设置了值，那么将使用root属性以及category_base属性值。
 	 *
 	 * @since 1.5.0
 	 *
@@ -626,7 +622,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieves an extra permalink structure by name.
+     * 通过名称检索外部永久链接结构。
 	 *
 	 * @since 2.5.0
 	 *
@@ -769,10 +765,14 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Adds or updates existing rewrite tags (e.g. %postname%).
+     * 增加或者更新存在的重新标签(e.g. %postname%).
 	 *
 	 * If the tag already exists, replace the existing pattern and query for
 	 * that tag, otherwise add the new tag.
+     *
+     * 将元素分别添加到使用每个参数的$ rewritecode，$ rewritereplace和$ queryreplace数组中。如果$ rewritecode中已经存在$ tag，则现有值将被覆盖。
+     *
+     * 可以用来允许WordPress识别自定义变量（特别是自定义查询字符串变量）。
 	 *
 	 * @since 1.5.0
 	 *
@@ -818,29 +818,28 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Generates rewrite rules from a permalink structure.
+     * 从一个永久链接结构生成重写规则。
 	 *
-	 * The main WP_Rewrite function for building the rewrite rule list. The
-	 * contents of the function is a mix of black magic and regular expressions,
-	 * so best just ignore the contents and move to the parameters.
+     * 这是WP_Rewrite类的主要函数用于构建重写规则列表。
+     * 该函数的内容是黑魔法和正则表达式的混合，所以最好忽略函数内容而只关注函数的参数。
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $permalink_structure The permalink structure.
-	 * @param int    $ep_mask             Optional. Endpoint mask defining what endpoints are added to the structure.
+	 * @param string $permalink_structure 永久链接结构
+	 * @param int    $ep_mask             Optional. 端点掩码定义将什么端点添加到结构中。
 	 *                                    Accepts `EP_NONE`, `EP_PERMALINK`, `EP_ATTACHMENT`, `EP_DATE`, `EP_YEAR`,
 	 *                                    `EP_MONTH`, `EP_DAY`, `EP_ROOT`, `EP_COMMENTS`, `EP_SEARCH`, `EP_CATEGORIES`,
 	 *                                    `EP_TAGS`, `EP_AUTHORS`, `EP_PAGES`, `EP_ALL_ARCHIVES`, and `EP_ALL`.
 	 *                                    Default `EP_NONE`.
-	 * @param bool   $paged               Optional. Whether archive pagination rules should be added for the structure.
+	 * @param bool   $paged               Optional. 是否应该为结构添加归档分页规则。
 	 *                                    Default true.
-	 * @param bool   $feed                Optional Whether feed rewrite rules should be added for the structure.
+	 * @param bool   $feed                Optional 结构中是否应该添加Feed重写规则。
 	 *                                    Default true.
 	 * @param bool   $forcomments         Optional. Whether the feed rules should be a query for a comments feed.
 	 *                                    Default false.
 	 * @param bool   $walk_dirs           Optional. Whether the 'directories' making up the structure should be walked
 	 *                                    over and rewrite rules built for each in-turn. Default true.
-	 * @param bool   $endpoints           Optional. Whether endpoints should be applied to the generated rewrite rules.
+	 * @param bool   $endpoints           Optional. 是否应将端点应用于生成的重写规则。
 	 *                                    Default true.
 	 * @return array Rewrite rule list.
 	 */
@@ -1202,17 +1201,16 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Constructs rewrite matches and queries from permalink structure.
+     * 从永久链接结构构造重写匹配和查询。
 	 *
-	 * Runs the action {@see 'generate_rewrite_rules'} with the parameter that is an
-	 * reference to the current WP_Rewrite instance to further manipulate the
-	 * permalink structures and rewrite rules. Runs the {@see 'rewrite_rules_array'}
-	 * filter on the full rewrite rule array.
+     * 使用当前WP_Rewrite实例的引用的参数运行{@see'generate_rewrite_rules'}，以进一步处理permalink结构和重写规则。 在完整的重写规则数组上运行{@see'rewrite_rules_array'}过滤器。
 	 *
 	 * There are two ways to manipulate the rewrite rules, one by hooking into
 	 * the {@see 'generate_rewrite_rules'} action and gaining full control of the
 	 * object or just manipulating the rewrite rule array before it is passed
 	 * from the function.
+     * 有两种方法来操作重写规则，一种是通过挂钩到{@see'generate_rewrite_rules'}动作，
+     * 获得对对象的完全控制，或者在从函数传递之前操作重写规则数组。
 	 *
 	 * @since 1.5.0
 	 *
@@ -1409,12 +1407,13 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieves the rewrite rules.
+     * 检索重写规则
 	 *
 	 * The difference between this method and WP_Rewrite::rewrite_rules() is that
 	 * this method stores the rewrite rules in the 'rewrite_rules' option and retrieves
 	 * it. This prevents having to process all of the permalinks to get the rewrite rules
 	 * in the form of caching.
+     * 这个方法和WP_Rewrite :: rewrite_rules()之间的区别在于，这个方法将重写规则存储在'rewrite_rules'选项中并检索它。 这可以防止必须处理所有的固定链接，以缓存的形式获取重写规则。
 	 *
 	 * @since 1.5.0
 	 *
@@ -1523,10 +1522,9 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieves IIS7 URL Rewrite formatted rewrite rules to write to web.config file.
+     * 检索IIS7 URL重写规则，格式化重写规则以写入到web.config文件。
 	 *
-	 * Does not actually write to the web.config file, but creates the rules for
-	 * the process that will.
+	 * 实际上并不写入web.config文件，而是为将要执行的过程创建规则。
 	 *
 	 * @since 2.8.0
 	 *
@@ -1574,10 +1572,10 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Adds a rewrite rule that transforms a URL structure to a set of query vars.
+     * 增加一个转换URL结果为系列查询变量的重写规则。
 	 *
-	 * Any value in the $after parameter that isn't 'bottom' will result in the rule
-	 * being placed at the top of the rewrite rules.
+     * $after参数中不等于“bottom”的任何值将导致规则位于重写规则的顶部。
+     *
 	 *
 	 * @since 2.1.0
 	 * @since 4.4.0 Array support was added to the `$query` parameter.
@@ -1611,7 +1609,8 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Adds a rewrite rule that doesn't correspond to index.php.
+	 * 添加一个不对应于index.php的重写规则。
+     *
 	 *
 	 * @since 2.1.0
 	 *
@@ -1653,23 +1652,26 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Adds a new permalink structure.
+     * 增加一个新的永久链接结构。
 	 *
-	 * A permalink structure (permastruct) is an abstract definition of a set of rewrite rules;
-	 * it is an easy way of expressing a set of regular expressions that rewrite to a set of
-	 * query strings. The new permastruct is added to the WP_Rewrite::$extra_permastructs array.
+	 * 永久链接结构（permastruct）是一组重写规则的抽象定义;
+     * 这是表达一组正则表达式的简单方法，可以重写为一组查询字符串。
+     * 新的permastruct被添加到WP_Rewrite::$extra_permastructs数组中。
 	 *
 	 * When the rewrite rules are built by WP_Rewrite::rewrite_rules(), all of these extra
 	 * permastructs are passed to WP_Rewrite::generate_rewrite_rules() which transforms them
 	 * into the regular expressions that many love to hate.
+     * 当重写规则由WP_Rewrite::rewrite_rules()构建时，
+     * 所有这些额外的permastructs都会被传递给WP_Rewrite :: generate_rewrite_rules()
+     * ，将它转换成许多人喜欢讨厌的正则表达式。
 	 *
 	 * The `$args` parameter gives you control over how WP_Rewrite::generate_rewrite_rules()
 	 * works on the new permastruct.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $name   Name for permalink structure.
-	 * @param string $struct Permalink structure (e.g. category/%category%)
+	 * @param string $name   永久链接结构的名称
+	 * @param string $struct  永久链接结构 (e.g. category/%category%)
 	 * @param array  $args   {
 	 *     Optional. Arguments for building rewrite rules based on the permalink structure.
 	 *     Default empty array.
@@ -1730,7 +1732,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Removes rewrite rules and then recreate rewrite rules.
+     * 移除重写规则然后重新创建规则并将其保存到数据库。
 	 *
 	 * Calls WP_Rewrite::wp_rewrite_rules() after removing the 'rewrite_rules' option.
 	 * If the function named 'save_mod_rewrite_rules' exists, it will be called.
@@ -1778,7 +1780,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Sets up the object's properties.
+     * 设置对象的属性。
 	 *
 	 * The 'use_verbose_page_rules' object property will be set to true if the
 	 * permalink structure begins with one of the following: '%postname%', '%category%',
@@ -1788,7 +1790,7 @@ class WP_Rewrite {
 	 */
 	public function init() {
 		$this->extra_rules = $this->non_wp_rules = $this->endpoints = array();
-		$this->permalink_structure = get_option('permalink_structure');
+		$this->permalink_structure = get_option('permalink_structure'); // 从数据库获取设置的永久链接结构
 		$this->front = substr($this->permalink_structure, 0, strpos($this->permalink_structure, '%'));
 		$this->root = '';
 
@@ -1804,6 +1806,7 @@ class WP_Rewrite {
 		$this->use_trailing_slashes = ( '/' == substr($this->permalink_structure, -1, 1) );
 
 		// Enable generic rules for pages if permalink structure doesn't begin with a wildcard.
+        // 如果永久链接结构不以通配符开头，则为页面启用通用规则。
 		if ( preg_match("/^[^%]*%(?:postname|category|tag|author)%/", $this->permalink_structure) )
 			 $this->use_verbose_page_rules = true;
 		else
@@ -1844,7 +1847,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Sets the category base for the category permalink.
+     * 为category永久链接设置category的base。
 	 *
 	 * Will update the 'category_base' option, if there is a difference between
 	 * the current category base and the parameter value. Calls WP_Rewrite::init()

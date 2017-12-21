@@ -936,9 +936,9 @@ function count_users( $strategy = 'time', $site_id = null ) {
 //
 
 /**
- * Set up global user vars.
+ * 设置全局用户变量
  *
- * Used by wp_set_current_user() for back compat. Might be deprecated in the future.
+ * 被wp_set_current_user()用于向后兼容。 将来可能会被弃用。
  *
  * @since 2.0.4
  *
@@ -2542,15 +2542,13 @@ function wp_get_users_with_no_role( $site_id = null ) {
 }
 
 /**
- * Retrieves the current user object.
+ * 检索当前用户对象
  *
- * Will set the current user, if the current user is not set. The current user
- * will be set to the logged-in person. If no user is logged-in, then it will
- * set the current user to 0, which is invalid and won't have any permissions.
+ * 如果当前用户没有设置，则设置当前用户。当前用户设置为登陆用户。
+ * 如果没有用户登陆，它将会设置当前用户为0，表示无效且没有任何权限的用户。
  *
- * This function is used by the pluggable functions wp_get_current_user() and
- * get_currentuserinfo(), the latter of which is deprecated but used for backward
- * compatibility.
+ * 这个函数被可插拔函数wp_get_current_user()和get_currentuserinfo()使用，
+ * 后者过时了，但用来向后兼容。
  *
  * @since 4.5.0
  * @access private

@@ -1,6 +1,7 @@
 <?php
 /**
- * Loads the correct template based on the visitor's url
+ * 根据访问者的网址加载正确的模板
+ *
  * @package WordPress
  */
 if ( defined('WP_USE_THEMES') && WP_USE_THEMES )

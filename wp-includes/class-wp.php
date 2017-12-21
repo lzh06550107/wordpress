@@ -7,7 +7,7 @@
  */
 class WP {
 	/**
-	 * Public query variables.
+     * 公开的查询变量。
 	 *
 	 * Long list of public query variables.
 	 *
@@ -17,7 +17,7 @@ class WP {
 	public $public_query_vars = array('m', 'p', 'posts', 'w', 'cat', 'withcomments', 'withoutcomments', 's', 'search', 'exact', 'sentence', 'calendar', 'page', 'paged', 'more', 'tb', 'pb', 'author', 'order', 'orderby', 'year', 'monthnum', 'day', 'hour', 'minute', 'second', 'name', 'category_name', 'tag', 'feed', 'author_name', 'static', 'pagename', 'page_id', 'error', 'attachment', 'attachment_id', 'subpost', 'subpost_id', 'preview', 'robots', 'taxonomy', 'term', 'cpage', 'post_type', 'embed' );
 
 	/**
-	 * Private query variables.
+     * 私有的查询变量。
 	 *
 	 * Long list of private query variables.
 	 *
@@ -27,7 +27,7 @@ class WP {
 	public $private_query_vars = array( 'offset', 'posts_per_page', 'posts_per_archive_page', 'showposts', 'nopaging', 'post_type', 'post_status', 'category__in', 'category__not_in', 'category__and', 'tag__in', 'tag__not_in', 'tag__and', 'tag_slug__in', 'tag_slug__and', 'tag_id', 'post_mime_type', 'perm', 'comments_per_page', 'post__in', 'post__not_in', 'post_parent', 'post_parent__in', 'post_parent__not_in', 'title', 'fields' );
 
 	/**
-	 * Extra query variables set by the user.
+     * 被用户设置的额外查询变量。
 	 *
 	 * @since 2.1.0
 	 * @var array
@@ -35,7 +35,7 @@ class WP {
 	public $extra_query_vars = array();
 
 	/**
-	 * Query variables for setting up the WordPress Query Loop.
+     * 用来设置WordPress查询循环的查询变量。
 	 *
 	 * @since 2.0.0
 	 * @var array
@@ -43,7 +43,7 @@ class WP {
 	public $query_vars;
 
 	/**
-	 * String parsed to set the query variables.
+     * 被用来设置查询变量的解析字符串。
 	 *
 	 * @since 2.0.0
 	 * @var string
@@ -52,6 +52,7 @@ class WP {
 
 	/**
 	 * The request path, e.g. 2015/05/06.
+     * 请求路径
 	 *
 	 * @since 2.0.0
 	 * @var string
@@ -59,7 +60,7 @@ class WP {
 	public $request;
 
 	/**
-	 * Rewrite rule the request matched.
+     * 匹配请求的重写规则。
 	 *
 	 * @since 2.0.0
 	 * @var string
@@ -67,7 +68,7 @@ class WP {
 	public $matched_rule;
 
 	/**
-	 * Rewrite query the request matched.
+     * 匹配请求的重写查询
 	 *
 	 * @since 2.0.0
 	 * @var string
@@ -75,7 +76,8 @@ class WP {
 	public $matched_query;
 
 	/**
-	 * Whether already did the permalink.
+	 * 是否已经做了永久链接。
+     *
 	 *
 	 * @since 2.0.0
 	 * @var bool
@@ -83,7 +85,7 @@ class WP {
 	public $did_permalink = false;
 
 	/**
-	 * Add name to list of public query variables.
+	 * 将名称添加到公共查询变量的列表中。
 	 *
 	 * @since 2.1.0
 	 *
@@ -95,7 +97,7 @@ class WP {
 	}
 
 	/**
-	 * Removes a query variable from a list of public query variables.
+     * 从公共查询变量列表中删除一个查询变量。
 	 *
 	 * @since 4.5.0
 	 *
@@ -106,7 +108,7 @@ class WP {
 	}
 
 	/**
-	 * Set the value of a query variable.
+     * 设置查询变量的值。
 	 *
 	 * @since 2.3.0
 	 *
@@ -118,10 +120,9 @@ class WP {
 	}
 
 	/**
-	 * Parse request to find correct WordPress query.
+     * 通过解析请求来查找正确的WordPress查询。
 	 *
-	 * Sets up the query variables based on the request. There are also many
-	 * filters and actions that can be used to further manipulate the result.
+     * 根据请求设置查询变量。 还有许多过滤器和操作可以用来进一步处理结果。
 	 *
 	 * @since 2.0.0
 	 *
@@ -133,11 +134,11 @@ class WP {
 		global $wp_rewrite;
 
 		/**
-		 * Filters whether to parse the request.
+         * 通过过滤器来改变是否解析请求。你可以通过钩子，返回false来解决解析请求。
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param bool         $bool             Whether or not to parse the request. Default true.
+		 * @param bool         $bool             该参数表示被过滤的内容，默认为true。表示解析请求
 		 * @param WP           $this             Current WordPress environment instance.
 		 * @param array|string $extra_query_vars Extra passed query variables.
 		 */
@@ -148,8 +149,9 @@ class WP {
 		$post_type_query_vars = array();
 
 		if ( is_array( $extra_query_vars ) ) {
-			$this->extra_query_vars = & $extra_query_vars;
+			$this->extra_query_vars = & $extra_query_vars; // 引用赋值
 		} elseif ( ! empty( $extra_query_vars ) ) {
+		    // 解析查询变量到数组中
 			parse_str( $extra_query_vars, $this->extra_query_vars );
 		}
 		// Process PATH_INFO, REQUEST_URI, and 404 for permalinks.
@@ -578,7 +580,7 @@ class WP {
 	}
 
 	/**
-	 * Set up the current user.
+     * 设置当前的用户
 	 *
 	 * @since 2.0.0
 	 */
@@ -587,7 +589,7 @@ class WP {
 	}
 
 	/**
-	 * Set up the Loop based on the query variables.
+     * 基于查询变量设置循环
 	 *
 	 * @since 2.0.0
 	 *
@@ -707,15 +709,15 @@ class WP {
 	 * @param string|array $query_args Passed to parse_request().
 	 */
 	public function main($query_args = '') {
-		$this->init();
-		$this->parse_request($query_args);
-		$this->send_headers();
-		$this->query_posts();
+		$this->init(); // 初始化当前用户对象
+		$this->parse_request($query_args); // 解析请求，获取查询变量
+		$this->send_headers(); // 发送响应头
+		$this->query_posts(); // 利用查询变量查询文章
 		$this->handle_404();
 		$this->register_globals();
 
 		/**
-		 * Fires once the WordPress environment has been set up.
+         * 一旦WordPress环境被设置完成，立刻触发该动作
 		 *
 		 * @since 2.1.0
 		 *

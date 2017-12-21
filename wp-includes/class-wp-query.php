@@ -8,7 +8,7 @@
  */
 
 /**
- * The WordPress Query class.
+ * WordPress查询类
  *
  * @link https://codex.wordpress.org/Function_Reference/WP_Query Codex page.
  *
@@ -18,7 +18,7 @@
 class WP_Query {
 
 	/**
-	 * Query vars set by the user
+     * 用户设置的查询变量
 	 *
 	 * @since 1.5.0
 	 * @var array
@@ -26,7 +26,7 @@ class WP_Query {
 	public $query;
 
 	/**
-	 * Query vars, after parsing
+     * 解析之后的查询变量
 	 *
 	 * @since 1.5.0
 	 * @var array
@@ -34,7 +34,7 @@ class WP_Query {
 	public $query_vars = array();
 
 	/**
-	 * Taxonomy query, as passed to get_tax_sql()
+	 * 分类法查询，传递给get_tax_sql()
 	 *
 	 * @since 3.1.0
 	 * @var object WP_Tax_Query
@@ -42,7 +42,7 @@ class WP_Query {
 	public $tax_query;
 
 	/**
-	 * Metadata query container
+     * 元数据查询容器
 	 *
 	 * @since 3.2.0
 	 * @var object WP_Meta_Query
@@ -50,7 +50,7 @@ class WP_Query {
 	public $meta_query = false;
 
 	/**
-	 * Date query container
+     * 日期查询容器
 	 *
 	 * @since 3.7.0
 	 * @var object WP_Date_Query
@@ -58,9 +58,9 @@ class WP_Query {
 	public $date_query = false;
 
 	/**
-	 * Holds the data for a single object that is queried.
+     * 保存被查询的单个对象数据。
 	 *
-	 * Holds the contents of a post, page, category, attachment.
+     * 如果请求是一个类别，作者，永久链接或页面，则适用。保存所请求的类别，作者，帖子或页面的信息。
 	 *
 	 * @since 1.5.0
 	 * @var object|array
@@ -68,7 +68,9 @@ class WP_Query {
 	public $queried_object;
 
 	/**
-	 * The ID of the queried object.
+     * 被查询对象的ID。
+     *
+     * 如果请求是一个类别，作者，永久链接或帖子/页面，保存相应的ID。
 	 *
 	 * @since 1.5.0
 	 * @var int
@@ -76,7 +78,7 @@ class WP_Query {
 	public $queried_object_id;
 
 	/**
-	 * Get post database query.
+     * 获取最终组装的数据库查询SQL语句
 	 *
 	 * @since 2.0.1
 	 * @var string
@@ -84,7 +86,7 @@ class WP_Query {
 	public $request;
 
 	/**
-	 * List of posts.
+     * 帖子列表。
 	 *
 	 * @since 1.5.0
 	 * @var array
@@ -92,7 +94,7 @@ class WP_Query {
 	public $posts;
 
 	/**
-	 * The amount of posts for the current query.
+     * 当前查询的帖子数量。
 	 *
 	 * @since 1.5.0
 	 * @var int
@@ -100,7 +102,7 @@ class WP_Query {
 	public $post_count = 0;
 
 	/**
-	 * Index of the current item in the loop.
+     * 循环的当前项索引。
 	 *
 	 * @since 1.5.0
 	 * @var int
@@ -109,6 +111,8 @@ class WP_Query {
 
 	/**
 	 * Whether the loop has started and the caller is in the loop.
+     * 循环是否已经启动，调用者是否在循环中。
+     *
 	 *
 	 * @since 2.0.0
 	 * @var bool
@@ -116,7 +120,7 @@ class WP_Query {
 	public $in_the_loop = false;
 
 	/**
-	 * The current post.
+	 *  当前正在显示的帖子。
 	 *
 	 * @since 1.5.0
 	 * @var WP_Post
@@ -124,7 +128,7 @@ class WP_Query {
 	public $post;
 
 	/**
-	 * The list of comments for current post.
+     * 当前正在显示帖子的评论列表。
 	 *
 	 * @since 2.2.0
 	 * @var array
@@ -133,6 +137,7 @@ class WP_Query {
 
 	/**
 	 * The amount of comments for the posts.
+     *  帖子的评论数量。
 	 *
 	 * @since 2.2.0
 	 * @var int
@@ -140,7 +145,7 @@ class WP_Query {
 	public $comment_count = 0;
 
 	/**
-	 * The index of the comment in the comment loop.
+     * 在评论循环中，当前评论的索引。
 	 *
 	 * @since 2.2.0
 	 * @var int
@@ -148,7 +153,7 @@ class WP_Query {
 	public $current_comment = -1;
 
 	/**
-	 * Current comment ID.
+     * 当前评论ID。
 	 *
 	 * @since 2.2.0
 	 * @var int
@@ -156,7 +161,7 @@ class WP_Query {
 	public $comment;
 
 	/**
-	 * The amount of found posts for the current query.
+     * 当前查询找到的帖子数量。
 	 *
 	 * If limit clause was not used, equals $post_count.
 	 *
@@ -167,6 +172,7 @@ class WP_Query {
 
 	/**
 	 * The amount of pages.
+     * 页面数量。
 	 *
 	 * @since 2.1.0
 	 * @var int
@@ -175,6 +181,7 @@ class WP_Query {
 
 	/**
 	 * The amount of comment pages.
+     * 评论页面数量。
 	 *
 	 * @since 2.7.0
 	 * @var int
@@ -182,7 +189,7 @@ class WP_Query {
 	public $max_num_comment_pages = 0;
 
 	/**
-	 * Signifies whether the current query is for a single post.
+     * 标识当前查询是一个单独帖子。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -190,7 +197,7 @@ class WP_Query {
 	public $is_single = false;
 
 	/**
-	 * Signifies whether the current query is for a preview.
+     * 标识当前查询是一个预览。
 	 *
 	 * @since 2.0.0
 	 * @var bool
@@ -198,7 +205,7 @@ class WP_Query {
 	public $is_preview = false;
 
 	/**
-	 * Signifies whether the current query is for a page.
+     * 标识当前查询是一个页面。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -206,7 +213,7 @@ class WP_Query {
 	public $is_page = false;
 
 	/**
-	 * Signifies whether the current query is for an archive.
+     * 标识当前查询是一个归档。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -214,7 +221,7 @@ class WP_Query {
 	public $is_archive = false;
 
 	/**
-	 * Signifies whether the current query is for a date archive.
+     * 标识当前查询是一个日期归档。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -222,7 +229,7 @@ class WP_Query {
 	public $is_date = false;
 
 	/**
-	 * Signifies whether the current query is for a year archive.
+     * 标识当前查询是一个年份归档。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -230,7 +237,7 @@ class WP_Query {
 	public $is_year = false;
 
 	/**
-	 * Signifies whether the current query is for a month archive.
+     * 标识当前查询是一个月份归档。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -238,7 +245,7 @@ class WP_Query {
 	public $is_month = false;
 
 	/**
-	 * Signifies whether the current query is for a day archive.
+     * 标识当前查询是一个日期归档。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -246,7 +253,7 @@ class WP_Query {
 	public $is_day = false;
 
 	/**
-	 * Signifies whether the current query is for a specific time.
+     * 标识当前查询是一个具体的时间。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -254,7 +261,7 @@ class WP_Query {
 	public $is_time = false;
 
 	/**
-	 * Signifies whether the current query is for an author archive.
+     * 标识当前查询是一个作者归档。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -262,7 +269,7 @@ class WP_Query {
 	public $is_author = false;
 
 	/**
-	 * Signifies whether the current query is for a category archive.
+     * 标识当前查询是一个目录归档。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -270,7 +277,7 @@ class WP_Query {
 	public $is_category = false;
 
 	/**
-	 * Signifies whether the current query is for a tag archive.
+     * 标识当前查询是一个标签归档。
 	 *
 	 * @since 2.3.0
 	 * @var bool
@@ -278,7 +285,7 @@ class WP_Query {
 	public $is_tag = false;
 
 	/**
-	 * Signifies whether the current query is for a taxonomy archive.
+     * 标识当前查询是一个分类法归档。
 	 *
 	 * @since 2.5.0
 	 * @var bool
@@ -286,7 +293,7 @@ class WP_Query {
 	public $is_tax = false;
 
 	/**
-	 * Signifies whether the current query is for a search.
+     * 标识当前查询是一个搜索。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -294,7 +301,7 @@ class WP_Query {
 	public $is_search = false;
 
 	/**
-	 * Signifies whether the current query is for a feed.
+     * 标识当前查询是一个feed。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -302,7 +309,7 @@ class WP_Query {
 	public $is_feed = false;
 
 	/**
-	 * Signifies whether the current query is for a comment feed.
+     * 标识当前查询是一个评论feed。
 	 *
 	 * @since 2.2.0
 	 * @var bool
@@ -310,15 +317,15 @@ class WP_Query {
 	public $is_comment_feed = false;
 
 	/**
-	 * Signifies whether the current query is for trackback endpoint call.
-	 *
+     * 标识当前查询是一个trackback endpoint调用。
+     *
 	 * @since 1.5.0
 	 * @var bool
 	 */
 	public $is_trackback = false;
 
 	/**
-	 * Signifies whether the current query is for the site homepage.
+     * 标识当前查询是一个站点主页(homepage)。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -326,7 +333,7 @@ class WP_Query {
 	public $is_home = false;
 
 	/**
-	 * Signifies whether the current query couldn't find anything.
+     * 标识当前查询不能找到任何东西。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -334,7 +341,7 @@ class WP_Query {
 	public $is_404 = false;
 
 	/**
-	 * Signifies whether the current query is for an embed.
+     * 标识当前查询是一个embed。
 	 *
 	 * @since 4.4.0
 	 * @var bool
@@ -342,7 +349,7 @@ class WP_Query {
 	public $is_embed = false;
 
 	/**
-	 * Signifies whether the current query is for a paged result and not for the first page.
+     * 标识当前查询是分页的且不是第一页。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -351,6 +358,7 @@ class WP_Query {
 
 	/**
 	 * Signifies whether the current query is for an administrative interface page.
+     * 标识当前查询是一个管理页面。
 	 *
 	 * @since 1.5.0
 	 * @var bool
@@ -358,7 +366,7 @@ class WP_Query {
 	public $is_admin = false;
 
 	/**
-	 * Signifies whether the current query is for an attachment page.
+     * 标识当前查询是一个附件页面。
 	 *
 	 * @since 2.0.0
 	 * @var bool
@@ -366,8 +374,7 @@ class WP_Query {
 	public $is_attachment = false;
 
 	/**
-	 * Signifies whether the current query is for an existing single post of any post type
-	 * (post, attachment, page, custom post types).
+     * 标识当前查询是一个存在的任何文章类型(post,attachment,page,custom post types)的单个文章。
 	 *
 	 * @since 2.1.0
 	 * @var bool
@@ -375,7 +382,7 @@ class WP_Query {
 	public $is_singular = false;
 
 	/**
-	 * Signifies whether the current query is for the robots.txt file.
+     * 标识当前查询是robots.txt文件。
 	 *
 	 * @since 2.1.0
 	 * @var bool
@@ -383,8 +390,8 @@ class WP_Query {
 	public $is_robots = false;
 
 	/**
-	 * Signifies whether the current query is for the page_for_posts page.
-	 *
+     * 标识当前查询是page_for_posts页面？？？
+     *
 	 * Basically, the homepage if the option isn't set for the static homepage.
 	 *
 	 * @since 2.1.0
@@ -393,7 +400,7 @@ class WP_Query {
 	public $is_posts_page = false;
 
 	/**
-	 * Signifies whether the current query is for a post type archive.
+     * 标识当前查询是一个帖子归档。
 	 *
 	 * @since 3.1.0
 	 * @var bool
@@ -403,6 +410,7 @@ class WP_Query {
 	/**
 	 * Stores the ->query_vars state like md5(serialize( $this->query_vars ) ) so we know
 	 * whether we have to re-parse because something has changed
+     * 存储查询变量的哈希值，用来标识查询变量因为改变是否重新解析了。
 	 *
 	 * @since 3.1.0
 	 * @var bool|string
@@ -412,13 +420,14 @@ class WP_Query {
 	/**
 	 * Whether query vars have changed since the initial parse_query() call. Used to catch modifications to query vars made
 	 * via pre_get_posts hooks.
+     * 标识查询变量是否修改。
 	 *
 	 * @since 3.1.1
 	 */
 	private $query_vars_changed = true;
 
 	/**
-	 * Set if post thumbnails are cached
+     * 是否帖子缩略图被缓存。
 	 *
 	 * @since 3.2.0
 	 * @var bool
@@ -438,7 +447,7 @@ class WP_Query {
 	private $compat_methods = array( 'init_query_flags', 'parse_tax_query' );
 
 	/**
-	 * Resets query flags to false.
+     * 重置查询标志为false。
 	 *
 	 * The query flags are what page info WordPress was able to figure out.
 	 *
@@ -474,7 +483,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Initiates object properties and sets default values.
+     * 初始化对象属性然后设置默认值。
 	 *
 	 * @since 1.5.0
 	 */
@@ -501,7 +510,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Reparse the query vars.
+     * 重新解析查询变量。
 	 *
 	 * @since 1.5.0
 	 */
@@ -510,7 +519,8 @@ class WP_Query {
 	}
 
 	/**
-	 * Fills in the query variables, which do not exist within the parameter.
+     * 填充请求参数中不存在的查询变量。
+     *
 	 *
 	 * @since 2.1.0
 	 * @since 4.4.0 Removed the `comments_popup` public query variable.
@@ -577,6 +587,7 @@ class WP_Query {
 
 	/**
 	 * Parse a query string and set query type booleans.
+     * 解析查询字符串然后设置查询的类型。
 	 *
 	 * @since 1.5.0
 	 * @since 4.2.0 Introduced the ability to order by specific clauses of a `$meta_query`, by passing the clause's
@@ -740,12 +751,12 @@ class WP_Query {
 		if ( '' !== $qv['second'] ) $qv['second'] = absint($qv['second']);
 		if ( '' !== $qv['menu_order'] ) $qv['menu_order'] = absint($qv['menu_order']);
 
-		// Fairly insane upper bound for search string lengths.
+		// Fairly insane upper bound for search string lengths.搜索字符串长度相当疯狂的上限。
 		if ( ! is_scalar( $qv['s'] ) || ( ! empty( $qv['s'] ) && strlen( $qv['s'] ) > 1600 ) ) {
 			$qv['s'] = '';
 		}
 
-		// Compat. Map subpost to attachment.
+		// Compat. Map subpost to attachment.兼容性，映射subpost到一个附件
 		if ( '' != $qv['subpost'] )
 			$qv['attachment'] = $qv['subpost'];
 		if ( '' != $qv['subpost_id'] )
@@ -997,7 +1008,7 @@ class WP_Query {
 		$this->query_vars_changed = false;
 
 		/**
-		 * Fires after the main query vars have been parsed.
+         * 当主查询变量已经被解析后触发该动作。
 		 *
 		 * @since 1.5.0
 		 *
@@ -1007,9 +1018,9 @@ class WP_Query {
 	}
 
 	/**
-	 * Parses various taxonomy related query vars.
+     * 解析各种分类法相关的查询变量。
 	 *
-	 * For BC, this method is not marked as protected. See [28987].
+     * 为了向后兼容，本方法没有标记为protected. See [28987].
 	 *
 	 * @since 3.1.0
 	 *
@@ -1236,7 +1247,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Generates SQL for the WHERE clause based on passed search terms.
+     * 基于传入的搜索术语，生成SQL的WHERE字段。
 	 *
 	 * @since 3.7.0
 	 *
@@ -1318,7 +1329,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Check if the terms are suitable for searching.
+     * 检查该术语是否适合搜索。
 	 *
 	 * Uses an array of stopwords (terms) that are excluded from the separate
 	 * term matching when searching for posts. The list of English stopwords is
@@ -1392,7 +1403,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Generates SQL for the ORDER BY condition based on passed search terms.
+     * 基于传递的搜索术语，生成SQL的ORDER BY条件。
 	 *
 	 * @since 3.7.0
 	 *
@@ -1448,7 +1459,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Converts the given orderby alias (if allowed) to a properly-prefixed value.
+     * 转换给定orderby别名为一个适当前缀值。
 	 *
 	 * @since 4.0.0
 	 *
@@ -1541,8 +1552,8 @@ class WP_Query {
 	}
 
 	/**
-	 * Parse an 'order' query variable and cast it to ASC or DESC as necessary.
-	 *
+     * 解析'order' 查询变量，然后转换为必须的ASC或者DESC。
+     *
 	 * @since 4.0.0
 	 *
 	 * @param string $order The 'order' query variable.
@@ -1561,7 +1572,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Sets the 404 property and saves whether query is feed.
+     * 设置404属性且保存查询feed。
 	 *
 	 * @since 2.0.0
 	 */
@@ -1575,7 +1586,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Retrieve query variable.
+     * 检索查询变量。
 	 *
 	 * @since 1.5.0
 	 * @since 3.9.0 The `$default` argument was introduced.
@@ -1594,7 +1605,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Set query variable.
+     * 设置查询变量。
 	 *
 	 * @since 1.5.0
 	 *
@@ -1606,10 +1617,9 @@ class WP_Query {
 	}
 
 	/**
-	 * Retrieve the posts based on query variables.
+     * 基于查询变量检索文章。
 	 *
-	 * There are a few filters and actions that can be used to modify the post
-	 * database query.
+     * 存在一些用来修改数据库查询的过滤器和动作。
 	 *
 	 * @since 1.5.0
 	 *
@@ -1621,12 +1631,11 @@ class WP_Query {
 		$this->parse_query();
 
 		/**
-		 * Fires after the query variable object is created, but before the actual query is run.
+         * 在查询变量对象被创建之后，且在实际查询开始之前，触发该动作。
 		 *
-		 * Note: If using conditional tags, use the method versions within the passed instance
-		 * (e.g. $this->is_main_query() instead of is_main_query()). This is because the functions
-		 * like is_main_query() test against the global $wp_query instance, not the passed one.
-		 *
+         * 注意：如果使用条件标签，使用参数传递的$this->is_main_query()取代is_main_query()。
+         * 这是因为is_main_query()函数测试全局$wp_query实例，而不是传递的这个实例。
+         *
 		 * @since 2.0.0
 		 *
 		 * @param WP_Query $this The WP_Query instance (passed by reference).
@@ -1636,7 +1645,7 @@ class WP_Query {
 		// Shorthand.
 		$q = &$this->query_vars;
 
-		// Fill again in case pre_get_posts unset some vars.
+        // 再次填充查询变量，防止在pre_get_posts钩子中删除一些变量。
 		$q = $this->fill_query_vars($q);
 
 		// Parse meta query
@@ -1946,7 +1955,7 @@ class WP_Query {
 
 		if ( ! $q['suppress_filters'] ) {
 			/**
-			 * Filters the search SQL that is used in the WHERE clause of WP_Query.
+             * 过滤被用在WP_Query的WHERE字段中的搜索SQL。
 			 *
 			 * @since 3.0.0
 			 *
@@ -2366,7 +2375,7 @@ class WP_Query {
 		 */
 		if ( !$q['suppress_filters'] ) {
 			/**
-			 * Filters the WHERE clause of the query.
+             * 过滤查询的WHERE字段
 			 *
 			 * @since 1.5.0
 			 *
@@ -2376,7 +2385,7 @@ class WP_Query {
 			$where = apply_filters_ref_array( 'posts_where', array( $where, &$this ) );
 
 			/**
-			 * Filters the JOIN clause of the query.
+             * 过滤查询的JOIN字段。
 			 *
 			 * @since 1.5.0
 			 *
@@ -2417,6 +2426,7 @@ class WP_Query {
 			if ( !$q['suppress_filters'] ) {
 				/**
 				 * Filters the JOIN clause of the comments feed query before sending.
+                 * 在发送之前过滤注释feed查询的JOIN字段。
 				 *
 				 * @since 2.2.0
 				 *
@@ -2495,7 +2505,7 @@ class WP_Query {
 		 */
 		if ( !$q['suppress_filters'] ) {
 			/**
-			 * Filters the WHERE clause of the query.
+             * 过滤查询的WHERE字段。特别是操作分页查询。
 			 *
 			 * Specifically for manipulating paging queries.
 			 *
@@ -2507,7 +2517,7 @@ class WP_Query {
 			$where = apply_filters_ref_array( 'posts_where_paged', array( $where, &$this ) );
 
 			/**
-			 * Filters the GROUP BY clause of the query.
+             * 过滤查询的GROUP BY字段。
 			 *
 			 * @since 2.0.0
 			 *
@@ -2517,7 +2527,7 @@ class WP_Query {
 			$groupby = apply_filters_ref_array( 'posts_groupby', array( $groupby, &$this ) );
 
 			/**
-			 * Filters the JOIN clause of the query.
+             * 过滤查询的JOIN字段，特别是操作分页查询。
 			 *
 			 * Specifically for manipulating paging queries.
 			 *
@@ -2529,7 +2539,7 @@ class WP_Query {
 			$join = apply_filters_ref_array( 'posts_join_paged', array( $join, &$this ) );
 
 			/**
-			 * Filters the ORDER BY clause of the query.
+             * 过滤查询的ORDER BY字段。
 			 *
 			 * @since 1.5.1
 			 *
@@ -2539,7 +2549,7 @@ class WP_Query {
 			$orderby = apply_filters_ref_array( 'posts_orderby', array( $orderby, &$this ) );
 
 			/**
-			 * Filters the DISTINCT clause of the query.
+             * 过滤查询的DISTINCT字段。
 			 *
 			 * @since 2.1.0
 			 *
@@ -2549,7 +2559,7 @@ class WP_Query {
 			$distinct = apply_filters_ref_array( 'posts_distinct', array( $distinct, &$this ) );
 
 			/**
-			 * Filters the LIMIT clause of the query.
+             * 过程查询的LIMIT字段。
 			 *
 			 * @since 2.1.0
 			 *
@@ -2559,7 +2569,7 @@ class WP_Query {
 			$limits = apply_filters_ref_array( 'post_limits', array( $limits, &$this ) );
 
 			/**
-			 * Filters the SELECT clause of the query.
+             * 过滤查询的SELECT字段。
 			 *
 			 * @since 2.1.0
 			 *
@@ -2569,7 +2579,7 @@ class WP_Query {
 			$fields = apply_filters_ref_array( 'posts_fields', array( $fields, &$this ) );
 
 			/**
-			 * Filters all query clauses at once, for convenience.
+             * 为了方便，一次过滤所有查询字段
 			 *
 			 * Covers the WHERE, GROUP BY, JOIN, ORDER BY, DISTINCT,
 			 * fields (SELECT), and LIMITS clauses.
@@ -2591,7 +2601,7 @@ class WP_Query {
 		}
 
 		/**
-		 * Fires to announce the query's current selection parameters.
+         * 触发来通知查询的当前选择参数。
 		 *
 		 * For use by caching plugins.
 		 *
@@ -2603,7 +2613,7 @@ class WP_Query {
 
 		/*
 		 * Filters again for the benefit of caching plugins.
-		 * Regular plugins should use the hooks above.
+		 * Regular plugins should use the hooks above.？？？
 		 */
 		if ( !$q['suppress_filters'] ) {
 			/**
@@ -2727,7 +2737,7 @@ class WP_Query {
 
 		if ( !$q['suppress_filters'] ) {
 			/**
-			 * Filters the completed SQL query before sending.
+             * 在SQL查询前过滤完整的SQL语句。
 			 *
 			 * @since 2.0.0
 			 *
@@ -2738,15 +2748,11 @@ class WP_Query {
 		}
 
 		/**
-		 * Filters the posts array before the query takes place.
+         * 在查询发生前，过滤posts数组。通过返回非null值，绕过WordPress默认的post查询。
 		 *
-		 * Return a non-null value to bypass WordPress's default post queries.
-		 *
-		 * Filtering functions that require pagination information are encouraged to set
-		 * the `found_posts` and `max_num_pages` properties of the WP_Query object,
-		 * passed to the filter by reference. If WP_Query does not perform a database
-		 * query, it will not have enough information to generate these values itself.
-		 *
+         * 对于需要分页信息的过滤函数，鼓励设置传入引用参数WP_Query对象的 `found_posts` 和`max_num_pages`
+         * 属性，如果WP_Query不执行数据库查询，它将没有足够的信息来产生这些值。
+         *
 		 * @since 4.6.0
 		 *
 		 * @param array|null $posts Return an array of post data to short-circuit WP's query,
@@ -2912,7 +2918,7 @@ class WP_Query {
 
 			if ( $this->is_preview && $this->posts && current_user_can( $edit_cap, $this->posts[0]->ID ) ) {
 				/**
-				 * Filters the single post for preview mode.
+                 * 过滤预览模式的单个文章。
 				 *
 				 * @since 2.7.0
 				 *
@@ -3006,8 +3012,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Set up the amount of found posts and the number of pages (if limit clause was used)
-	 * for the current query.
+     * 为当前查询设置找到的帖子数量和页数。
 	 *
 	 * @since 3.5.0
 	 *
@@ -3050,7 +3055,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Set up the next post and iterate current post index.
+     * 设置下一个文章且迭代当前文章索引。
 	 *
 	 * @since 1.5.0
 	 *
@@ -3065,7 +3070,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Sets up the current post.
+     * 设置当前的文章。
 	 *
 	 * Retrieves the next post, sets up the post, sets the 'in the loop'
 	 * property to true.
@@ -3093,7 +3098,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Determines whether there are more posts available in the loop.
+     * 在循环中判断是否存在更多可用的文章。
 	 *
 	 * Calls the {@see 'loop_end'} action when the loop is complete.
 	 *
@@ -3131,7 +3136,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Rewind the posts and reset post index.
+     * 重置文章和文章索引。
 	 *
 	 * @since 1.5.0
 	 */
@@ -3143,7 +3148,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Iterate current comment index and return WP_Comment object.
+     * 迭代当前评论索引且返回WP_Comment对象。
 	 *
 	 * @since 2.2.0
 	 *
@@ -3157,7 +3162,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Sets up the current comment.
+     * 设置当前评论。
 	 *
 	 * @since 2.2.0
 	 * @global WP_Comment $comment Current comment.
@@ -3178,7 +3183,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Whether there are more comments available.
+     * 是否存在更多可用评论。
 	 *
 	 * Automatically rewinds comments when finished.
 	 *
@@ -3197,7 +3202,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Rewind the comments, resets the comment index and comment to first.
+     * 重置评论和评论索引。
 	 *
 	 * @since 2.2.0
 	 */
@@ -3209,7 +3214,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Sets up the WordPress query by parsing query string.
+     * 通过解析查询字符串来设置WordPress查询。
 	 *
 	 * @since 1.5.0
 	 *
@@ -3223,7 +3228,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Retrieve queried object.
+     * 检索查询对象。
 	 *
 	 * If queried object is not set, then the queried object will be set from
 	 * the category, tag, taxonomy, posts page, single post, page, or author
@@ -3298,7 +3303,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Retrieve ID of the current queried object.
+     * 检索当前查询对象的ID。
 	 *
 	 * @since 1.5.0
 	 *
@@ -3330,7 +3335,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Make private properties readable for backward compatibility.
+     * 使得私有属性可读。
 	 *
 	 * @since 4.0.0
 	 *
@@ -3374,7 +3379,7 @@ class WP_Query {
 	}
 
 	/**
- 	 * Is the query for an existing archive page?
+     * 查询是否是一个存在的归档页面？
  	 *
  	 * Month, Year, Category, Author, Post Type archive...
 	 *
@@ -3387,7 +3392,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing post type archive page?
+     * 查询是否是一个存在文章类型归档？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3407,7 +3412,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing attachment page?
+     * 查询是否是一个存在的附件页面？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3438,7 +3443,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing author archive page?
+     * 查询是否是一个存在的作者归档页面？
 	 *
 	 * If the $author parameter is specified, this function will additionally
 	 * check if the query is for one of the authors specified.
@@ -3470,7 +3475,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing category archive page?
+     * 查询是否是一个存在的目录归档页面？
 	 *
 	 * If the $category parameter is specified, this function will additionally
 	 * check if the query is for one of the categories specified.
@@ -3502,7 +3507,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing tag archive page?
+     * 查询是否是一个存在标签归档页面？
 	 *
 	 * If the $tag parameter is specified, this function will additionally
 	 * check if the query is for one of the tags specified.
@@ -3534,7 +3539,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing custom taxonomy archive page?
+     * 查询是否是一个存在自定义分类法归档页面？
 	 *
 	 * If the $taxonomy parameter is specified, this function will additionally
 	 * check if the query is for that specific $taxonomy.
@@ -3580,7 +3585,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Whether the current URL is within the comments popup window.
+     * 当前URL是否在评论弹出窗口。
 	 *
 	 * @since 3.1.0
 	 * @deprecated 4.5.0
@@ -3594,7 +3599,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing date archive?
+     * 查询是否是一个存在的日期归档？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3605,7 +3610,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing day archive?
+     * 查询是否是一个存在的按天归档？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3616,7 +3621,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for a feed?
+     * 查询是否是一个feed?
 	 *
 	 * @since 3.1.0
 	 *
@@ -3633,7 +3638,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for a comments feed?
+     * 查询是否是一个评论feed?
 	 *
 	 * @since 3.1.0
 	 *
@@ -3645,8 +3650,10 @@ class WP_Query {
 
 	/**
 	 * Is the query for the front page of the site?
+     * 查询是否是站点的前端页面？
 	 *
 	 * This is for what is displayed at your site's main URL.
+     * 就是显示你站点的主URL。
 	 *
 	 * Depends on the site's "Front page displays" Reading Settings 'show_on_front' and 'page_on_front'.
 	 *
@@ -3671,6 +3678,7 @@ class WP_Query {
 
 	/**
 	 * Is the query for the blog homepage?
+     * 查询是否是博客主页？
 	 *
 	 * This is the page which shows the time based blog content of your site.
 	 *
@@ -3690,7 +3698,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing month archive?
+     * 查询是否是一个存在的月归档？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3701,7 +3709,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing single page?
+     * 查询是否是一个存在的单个页面？
 	 *
 	 * If the $page parameter is specified, this function will additionally
 	 * check if the query is for one of the pages specified.
@@ -3748,7 +3756,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for paged result and not for the first page?
+     * 查询是否分页且不是第一页？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3759,7 +3767,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for a post or page preview?
+     * 查询是否是一个帖子或者页面预览？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3770,7 +3778,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for the robots file?
+     * 查询是否是robots文件？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3781,7 +3789,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for a search?
+     * 查询是否是一个搜索？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3793,6 +3801,7 @@ class WP_Query {
 
 	/**
 	 * Is the query for an existing single post?
+     * 查询是否是一个存在单个文章(除了页面)
 	 *
 	 * Works for any post type excluding pages.
 	 *
@@ -3840,8 +3849,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing single post of any post type (post, attachment, page,
-	 * custom post types)?
+     * 查询是否是一个存在的单个文章(post,attachment,page,custom post types)？
 	 *
 	 * If the $post_types parameter is specified, this function will additionally
 	 * check if the query is for one of the Posts Types specified.
@@ -3864,7 +3872,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for a specific time?
+     * 查询是一个具体的时间？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3875,7 +3883,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for a trackback endpoint call?
+     * 查询是否是一个trackback endpoint调用？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3886,7 +3894,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing year archive?
+     * 查询是否是一个存在的年归档？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3898,6 +3906,7 @@ class WP_Query {
 
 	/**
 	 * Is the query a 404 (returns no results)?
+     * 查询师傅是一个404？
 	 *
 	 * @since 3.1.0
 	 *
@@ -3919,7 +3928,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query the main query?
+     * 是否是一个主查询？
 	 *
 	 * @since 3.3.0
 	 *
@@ -3933,7 +3942,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Set up global post data.
+     * 设置全局文章数据。
 	 *
 	 * @since 4.1.0
 	 * @since 4.4.0 Added the ability to pass a post ID to `$post`.
@@ -4042,6 +4051,7 @@ class WP_Query {
 	/**
 	 * After looping through a nested query, this function
 	 * restores the $post global to the current post in this query.
+     * 当循环通过一个嵌套的查询后，该函数恢复全局$post为当前文章对象。
 	 *
 	 * @since 3.7.0
 	 *

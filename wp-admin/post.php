@@ -1,6 +1,6 @@
 <?php
 /**
- * Edit post administration panel.
+ * 编辑文章管理面板。
  *
  * Manage Post actions: post, edit, delete, etc.
  *

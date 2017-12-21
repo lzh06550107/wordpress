@@ -362,7 +362,7 @@ $GLOBALS['wp_query'] = $GLOBALS['wp_the_query']; // 保留对$ wp_the_query的�
  * @global WP_Rewrite $wp_rewrite
  * @since 1.5.0
  */
-$GLOBALS['wp_rewrite'] = new WP_Rewrite();
+$GLOBALS['wp_rewrite'] = new WP_Rewrite(); // 初始化重写类
 
 /**
  * WordPress Object

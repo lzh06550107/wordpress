@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Bootstrap
+ * WordPres管理界面启动脚本
  *
  * @package WordPress
  * @subpackage Administration
@@ -12,7 +12,7 @@
  * @since 2.3.2
  */
 if ( ! defined( 'WP_ADMIN' ) ) {
-	define( 'WP_ADMIN', true );
+	define( 'WP_ADMIN', true ); // 定义当前处于后台管理页面
 }
 
 if ( ! defined('WP_NETWORK_ADMIN') )
@@ -22,18 +22,18 @@ if ( ! defined('WP_USER_ADMIN') )
 	define('WP_USER_ADMIN', false);
 
 if ( ! WP_NETWORK_ADMIN && ! WP_USER_ADMIN ) {
-	define('WP_BLOG_ADMIN', true);
+	define('WP_BLOG_ADMIN', true); // 独立博客后台管理页面
 }
 
 //
 if ( isset($_GET['import']) && !defined('WP_LOAD_IMPORTERS') )
 	define('WP_LOAD_IMPORTERS', true);
 
-require_once(dirname(dirname(__FILE__)) . '/wp-load.php');
+require_once(dirname(dirname(__FILE__)) . '/wp-load.php'); // 加载wordPress所有相关文件
 
-nocache_headers();
+nocache_headers(); //不缓存管理界面
 
-if ( get_option('db_upgraded') ) {
+if ( get_option('db_upgraded') ) { // 是否升级数据库
 	flush_rewrite_rules();
 	update_option( 'db_upgraded',  false );
 
@@ -82,7 +82,7 @@ if ( get_option('db_upgraded') ) {
 
 require_once(ABSPATH . 'wp-admin/includes/admin.php');
 
-auth_redirect();
+auth_redirect(); // 检查是否登录
 
 // Schedule trash collection
 if ( ! wp_next_scheduled( 'wp_scheduled_delete' ) && ! wp_installing() )
@@ -98,7 +98,7 @@ set_screen_options();
 $date_format = __( 'F j, Y' );
 $time_format = __( 'g:i a' );
 
-wp_enqueue_script( 'common' );
+wp_enqueue_script( 'common' ); //插入脚本到页面
 
 /**
  * $pagenow is set in vars.php
@@ -145,10 +145,12 @@ if ( current_user_can( 'manage_options' ) ) {
 }
 
 /**
- * Fires as an admin screen or script is being initialized.
+ * 当一个管理界面或者脚本被初始化后触发该动作。
  *
  * Note, this does not just run on user-facing admin screens.
  * It runs on admin-ajax.php and admin-post.php as well.
+ * 请注意，这不只是在面向用户的管理员屏幕上运行。
+ * 它也运行在admin-ajax.php和admin-post.php上。
  *
  * This is roughly analogous to the more general {@see 'init'} hook, which fires earlier.
  *

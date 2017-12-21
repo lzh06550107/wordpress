@@ -740,28 +740,27 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
 }
 
 /**
- * Retrieves a modified URL query string.
+ * 检索修改的URL查询字符串。
  *
- * You can rebuild the URL and append query variables to the URL query by using this function.
- * There are two ways to use this function; either a single key and value, or an associative array.
+ * 您可以使用此函数重新生成URL并将查询变量追加到URL查询中。
+ * 有两种使用此功能的方法; 可以是单个键和值，也可以是关联数组。
  *
- * Using a single key and value:
+ * 使用单个键和值：
  *
  *     add_query_arg( 'key', 'value', 'http://example.com' );
  *
- * Using an associative array:
+ * 使用一个关联数组：
  *
  *     add_query_arg( array(
  *         'key1' => 'value1',
  *         'key2' => 'value2',
  *     ), 'http://example.com' );
  *
- * Omitting the URL from either use results in the current URL being used
- * (the value of `$_SERVER['REQUEST_URI']`).
+ * 忽略使用的URL会导致使用当前的URL($ _SERVER ['REQUEST_URI']`的值)。
  *
- * Values are expected to be encoded appropriately with urlencode() or rawurlencode().
+ * 返回的值期望使用urlencode()或rawurlencode()进行适当的编码。
  *
- * Setting any query variable's value to boolean false removes the key (see remove_query_arg()).
+ * 将任何查询变量的值设置为布尔值false将删除键(请参阅remove_query_arg())
  *
  * Important: The return value of add_query_arg() is not escaped by default. Output should be
  * late-escaped with esc_url() or similar to help prevent vulnerability to cross-site scripting
@@ -958,7 +957,7 @@ function wp_remote_fopen( $uri ) {
  */
 function wp( $query_vars = '' ) {
 	global $wp, $wp_query, $wp_the_query;
-	$wp->main( $query_vars );
+	$wp->main( $query_vars ); // 传入额外的查询变量
 
 	if ( !isset($wp_the_query) )
 		$wp_the_query = $wp_query;
@@ -1130,7 +1129,7 @@ function wp_get_nocache_headers() {
 }
 
 /**
- * Set the headers to prevent caching for the different browsers.
+ * 设置头来阻止各种浏览器缓存。
  *
  * Different browsers support different nocache headers, so several
  * headers must be sent so that all of them get the point that no

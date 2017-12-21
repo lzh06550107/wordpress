@@ -7,13 +7,11 @@
 
 if ( !function_exists('wp_set_current_user') ) :
 /**
- * Changes the current user by ID or name.
+ * 通过ID或者名称改变当前用户。
  *
- * Set $id to null and specify a name if you do not know a user's ID.
+ * 设置$id为null和如果你不知道用户的ID，则指定一个名称。
  *
- * Some WordPress functionality is based on the current user and not based on
- * the signed in user. Therefore, it opens the ability to edit and perform
- * actions on users who aren't signed in.
+ * 一些WordPress函数是基于当前用户，而不是基于登录用户。 因此，它可以编辑和执行未登录用户的操作。
  *
  * @since 2.0.3
  * @global WP_User $current_user The current user object which holds the user data.
@@ -36,7 +34,7 @@ function wp_set_current_user($id, $name = '') {
 
 	$current_user = new WP_User( $id, $name );
 
-	setup_userdata( $current_user->ID );
+	setup_userdata( $current_user->ID ); //出于向后兼容的目的
 
 	/**
 	 * Fires after the current user is set.
@@ -51,11 +49,10 @@ endif;
 
 if ( !function_exists('wp_get_current_user') ) :
 /**
- * Retrieve the current user object.
+ * 检索当前用户对象。
  *
- * Will set the current user, if the current user is not set. The current user
- * will be set to the logged-in person. If no user is logged-in, then it will
- * set the current user to 0, which is invalid and won't have any permissions.
+ * 如果当前用户没有设置，则设置当前用户。当前用户设置为登陆用户。
+ * 如果没有用户登陆，它将会设置当前用户为0，表示无效且没有任何权限的用户。
  *
  * @since 2.0.3
  *
