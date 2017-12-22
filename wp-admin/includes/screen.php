@@ -187,6 +187,7 @@ function get_hidden_meta_boxes( $screen ) {
 
 /**
  * Register and configure an admin screen option
+ * 注册和配置一个管理屏幕选项
  *
  * @since 3.1.0
  *

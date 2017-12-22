@@ -3293,6 +3293,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 /**
  * Enqueues all scripts, styles, settings, and templates necessary to use
  * all media JS APIs.
+ * 为了使用所有媒体JS API，插入所有必须的脚本，样式，设置和模板。
  *
  * @since 3.5.0
  *

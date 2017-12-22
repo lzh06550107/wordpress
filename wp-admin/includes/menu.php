@@ -1,6 +1,6 @@
 <?php
 /**
- * Build Administration Menu.
+ * 构建管理菜单
  *
  * @package WordPress
  * @subpackage Administration
@@ -31,9 +31,9 @@ if ( is_network_admin() ) {
 } else {
 
 	/**
-	 * Fires before the administration menu loads in the admin.
+     * 在管理界面加载管理菜单之前触发动作。
 	 *
-	 * The hook fires before menus and sub-menus are removed based on user privileges.
+     * 基于用户权限来移除菜单和子菜单之前触发钩子。
 	 *
 	 * @private
 	 * @since 2.2.0
@@ -42,29 +42,30 @@ if ( is_network_admin() ) {
 }
 
 // Create list of page plugin hook names.
+// 创建页面插件钩子名称列表
 foreach ($menu as $menu_page) {
 	if ( false !== $pos = strpos($menu_page[2], '?') ) {
 		// Handle post_type=post|page|foo pages.
 		$hook_name = substr($menu_page[2], 0, $pos);
 		$hook_args = substr($menu_page[2], $pos + 1);
-		wp_parse_str($hook_args, $hook_args);
+		wp_parse_str($hook_args, $hook_args); //解析参数字符串为参数数组
 		// Set the hook name to be the post type.
-		if ( isset($hook_args['post_type']) )
+		if ( isset($hook_args['post_type']) ) // 如果存在文章类型，则钩子名称为文章类型名称
 			$hook_name = $hook_args['post_type'];
 		else
-			$hook_name = basename($hook_name, '.php');
+			$hook_name = basename($hook_name, '.php'); // 否则，为页面名称
 		unset($hook_args);
 	} else {
-		$hook_name = basename($menu_page[2], '.php');
+		$hook_name = basename($menu_page[2], '.php'); // 为页面名称
 	}
 	$hook_name = sanitize_title($hook_name);
 
-	if ( isset($compat[$hook_name]) )
+	if ( isset($compat[$hook_name]) ) // 如果需要兼容，则使用兼容名称作为钩子名称
 		$hook_name = $compat[$hook_name];
 	elseif ( !$hook_name )
 		continue;
 
-	$admin_page_hooks[$menu_page[2]] = $hook_name;
+	$admin_page_hooks[$menu_page[2]] = $hook_name; // 管理页面钩子数组
 }
 unset($menu_page, $compat);
 
@@ -73,7 +74,7 @@ $_wp_menu_nopriv = array();
 // Loop over submenus and remove pages for which the user does not have privs.
 foreach ($submenu as $parent => $sub) {
 	foreach ($sub as $index => $data) {
-		if ( ! current_user_can($data[1]) ) {
+		if ( ! current_user_can($data[1]) ) { // 测试用户是否具有菜单需要的权限
 			unset($submenu[$parent][$index]);
 			$_wp_submenu_nopriv[$parent][$data[2]] = true;
 		}
@@ -140,7 +141,7 @@ if ( is_network_admin() ) {
 } else {
 
 	/**
-	 * Fires before the administration menu loads in the admin.
+     * 在管理菜单加载前出发动作。
 	 *
 	 * @since 1.5.0
 	 *
@@ -152,6 +153,7 @@ if ( is_network_admin() ) {
 /*
  * Remove menus that have no accessible submenus and require privileges
  * that the user does not have. Run re-parent loop again.
+ * 因为前面钩子可能修改了菜单，所以需要重新进行权限检查。
  */
 foreach ( $menu as $id => $data ) {
 	if ( ! current_user_can($data[1]) )
@@ -242,6 +244,7 @@ uksort($menu, "strnatcasecmp"); // make it all pretty
 
 /**
  * Filters whether to enable custom ordering of the administration menu.
+ * 是否启用管理菜单的自定义排序的过滤。默认是不排序
  *
  * See the {@see 'menu_order'} filter for reordering menu items.
  *

@@ -582,6 +582,7 @@ function wp_get_translation_updates() {
 
 /**
  * Collect counts and UI strings for available updates
+ * 计算可以更新的东西数目
  *
  * @since 3.3.0
  *

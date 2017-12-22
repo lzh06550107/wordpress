@@ -4344,6 +4344,7 @@ function map_deep( $value, $callback ) {
 
 /**
  * Parses a string into variables to be stored in an array.
+ * 解析一个字符串为存储在数组中的变量。
  *
  * Uses {@link https://secure.php.net/parse_str parse_str()} and stripslashes if
  * {@link https://secure.php.net/magic_quotes magic_quotes_gpc} is on.

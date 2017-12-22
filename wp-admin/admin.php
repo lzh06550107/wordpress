@@ -95,22 +95,22 @@ if ( ! wp_next_scheduled( 'delete_expired_transients' ) && ! wp_installing() ) {
 	wp_schedule_event( time(), 'daily', 'delete_expired_transients' );
 }
 
-set_screen_options();
+set_screen_options(); // ????
 
-$date_format = __( 'F j, Y' );
-$time_format = __( 'g:i a' );
+$date_format = __( 'F j, Y' ); // 日期格式
+$time_format = __( 'g:i a' ); // 时间格式
 
-wp_enqueue_script( 'common' ); //插入脚本到页面
+wp_enqueue_script( 'common' ); //插入js脚本到页面
 
 /**
  * $pagenow is set in vars.php
  * $wp_importers is sometimes set in wp-admin/includes/import.php
  * The remaining variables are imported as globals elsewhere, declared as globals here
  *
- * @global string $pagenow
- * @global array  $wp_importers
+ * @global string $pagenow 当前请求页面
+ * @global array  $wp_importers  存储WordPress导入插件
  * @global string $hook_suffix
- * @global string $plugin_page
+ * @global string $plugin_page 当前页面是否由插件生成
  * @global string $typenow
  * @global string $taxnow
  */
@@ -121,17 +121,17 @@ $page_hook = null;
 $editing = false;
 
 if ( isset($_GET['page']) ) {
-	$plugin_page = wp_unslash( $_GET['page'] );
+	$plugin_page = wp_unslash( $_GET['page'] ); // 设置插件创建的页面
 	$plugin_page = plugin_basename($plugin_page);
 }
 
 if ( isset( $_REQUEST['post_type'] ) && post_type_exists( $_REQUEST['post_type'] ) )
-	$typenow = $_REQUEST['post_type'];
+	$typenow = $_REQUEST['post_type']; // 文章类型
 else
 	$typenow = '';
 
 if ( isset( $_REQUEST['taxonomy'] ) && taxonomy_exists( $_REQUEST['taxonomy'] ) )
-	$taxnow = $_REQUEST['taxonomy'];
+	$taxnow = $_REQUEST['taxonomy']; // 分类法
 else
 	$taxnow = '';
 
@@ -140,10 +140,10 @@ if ( WP_NETWORK_ADMIN )
 elseif ( WP_USER_ADMIN )
 	require(ABSPATH . 'wp-admin/user/menu.php');
 else
-	require(ABSPATH . 'wp-admin/menu.php');
+	require(ABSPATH . 'wp-admin/menu.php'); // 加载管理界面菜单
 
 if ( current_user_can( 'manage_options' ) ) {
-	wp_raise_memory_limit( 'admin' );
+	wp_raise_memory_limit( 'admin' ); // 提升内存限制
 }
 
 /**
@@ -160,13 +160,13 @@ if ( current_user_can( 'manage_options' ) ) {
  */
 do_action( 'admin_init' );
 
-if ( isset($plugin_page) ) {
-	if ( !empty($typenow) )
+if ( isset($plugin_page) ) { // 请求插件创建的页面
+	if ( !empty($typenow) ) // 且文章类型存在
 		$the_parent = $pagenow . '?post_type=' . $typenow;
 	else
 		$the_parent = $pagenow;
 	if ( ! $page_hook = get_plugin_page_hook($plugin_page, $the_parent) ) {
-		$page_hook = get_plugin_page_hook($plugin_page, $plugin_page);
+		$page_hook = get_plugin_page_hook($plugin_page, $plugin_page); // 获取插件页钩子
 
 		// Back-compat for plugins using add_management_page().
 		if ( empty( $page_hook ) && 'edit.php' == $pagenow && '' != get_plugin_page_hook($plugin_page, 'tools.php') ) {
@@ -191,7 +191,7 @@ if ( isset( $page_hook ) ) {
 	$hook_suffix = $pagenow;
 }
 
-set_current_screen();
+set_current_screen(); // 设置当前屏幕对象
 
 // Handle plugin admin pages.
 if ( isset($plugin_page) ) {
@@ -216,12 +216,13 @@ if ( isset($plugin_page) ) {
 		 *
 		 * @since 2.1.0
 		 */
-		do_action( "load-{$page_hook}" );
+		do_action( "load-{$page_hook}" ); // 在页面被加载前执行插件页钩子
 		if (! isset($_GET['noheader']))
-			require_once(ABSPATH . 'wp-admin/admin-header.php');
+			require_once(ABSPATH . 'wp-admin/admin-header.php'); // 加载管理界面头部，菜单模板
 
 		/**
 		 * Used to call the registered callback for a plugin screen.
+         * 为一个插件页面调用注册回调函数。用来输出页面内容。
 		 *
 		 * @ignore
 		 * @since 1.5.0
@@ -252,6 +253,7 @@ if ( isset($plugin_page) ) {
 		if ( !isset($_GET['noheader']))
 			require_once(ABSPATH . 'wp-admin/admin-header.php');
 
+		// 直接使用插件页面模板来生成内容
 		if ( file_exists(WPMU_PLUGIN_DIR . "/$plugin_page") )
 			include(WPMU_PLUGIN_DIR . "/$plugin_page");
 		else

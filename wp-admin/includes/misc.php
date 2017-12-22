@@ -466,6 +466,7 @@ function update_home_siteurl( $old_value, $value ) {
 
 /**
  * Resets global variables based on $_GET and $_POST
+ * 基于$_GET 和$_POST重置全局变量
  *
  * This function resets global variables based on the names passed
  * in the $vars array to the value of $_POST[$var] or $_GET[$var] or ''

@@ -872,7 +872,7 @@ function delete_expired_transients( $force_db = false ) {
 }
 
 /**
- * Saves and restores user interface settings stored in a cookie.
+ * 保存和恢复用户界面设置(该设置保存在一个cookie中)
  *
  * Checks if the current user-settings cookie is updated and stores it. When no
  * cookie exists (different browser used), adds the last saved cookie restoring

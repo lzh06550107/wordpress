@@ -3048,6 +3048,7 @@ function user_can_richedit() {
 
 /**
  * Find out which editor should be displayed by default.
+ * 默认显示那个编辑器
  *
  * Works out which of the two editors to display as the current editor for a
  * user. The 'html' setting is for the "Text" editor tab.
@@ -3075,15 +3076,15 @@ function wp_default_editor() {
 
 /**
  * Renders an editor.
+ * 渲染一个编辑器。
  *
- * Using this function is the proper way to output all needed components for both TinyMCE and Quicktags.
- * _WP_Editors should not be used directly. See https://core.trac.wordpress.org/ticket/17144.
+ * 使用此函数是输出TinyMCE和Quicktags的所有必需组件的正确方法。不应该直接使用_WEd_Editor。
+ * 查看 https://core.trac.wordpress.org/ticket/17144.
  *
- * NOTE: Once initialized the TinyMCE editor cannot be safely moved in the DOM. For that reason
- * running wp_editor() inside of a meta box is not a good idea unless only Quicktags is used.
- * On the post edit screen several actions can be used to include additional editors
- * containing TinyMCE: 'edit_page_form', 'edit_form_advanced' and 'dbx_post_sidebar'.
  * See https://core.trac.wordpress.org/ticket/19173 for more information.
+ * 注意：一旦初始化，TinyMCE编辑器就不能在DOM中安全移动。
+ * 由于这个原因，在元数据box中运行wp_editor()不是一个好主意，除非只使用了Quicktags。
+ * 在文章编辑屏幕上，可以使用多个action(edit_page_form”，“edit_form_advanced”和“dbx_post_sidebar”)来包含其他包含TinyMCE的编辑器。
  *
  * @see _WP_Editors::editor()
  * @since 3.3.0
@@ -4014,7 +4015,7 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 }
 
 /**
- * Enqueues the default ThickBox js and css.
+ * 插入默认的ThickBox js和css。
  *
  * If any of the settings need to be changed, this can be done with another js
  * file similar to media-upload.js. That file should

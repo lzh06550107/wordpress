@@ -2994,6 +2994,8 @@ function wp_customize_url( $stylesheet = null ) {
  * and apply either the no-customize-support or customize-support class
  * to the body.
  *
+ * 打印检查定制器是否支持的脚本，然后应用no-customize-support或者ustomize-support到body
+ *
  * This function MUST be called inside the body tag.
  *
  * Ideally, call this function immediately after the body tag is opened.

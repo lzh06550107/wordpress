@@ -14,8 +14,9 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 $parent_file = 'edit.php';
 $submenu_file = 'edit.php';
 
-wp_reset_vars( array( 'action' ) );
+wp_reset_vars( array( 'action' ) ); // 从$_get和$_post中获取值，并设置为全局变量
 
+// 获取文章ID
 if ( isset( $_GET['post'] ) )
  	$post_id = $post_ID = (int) $_GET['post'];
 elseif ( isset( $_POST['post_ID'] ) )
@@ -31,11 +32,11 @@ else
 global $post_type, $post_type_object, $post;
 
 if ( $post_id )
-	$post = get_post( $post_id );
+	$post = get_post( $post_id ); // 获取文章对象
 
 if ( $post ) {
 	$post_type = $post->post_type;
-	$post_type_object = get_post_type_object( $post_type );
+	$post_type_object = get_post_type_object( $post_type ); // 获取文章类型对象
 }
 
 if ( isset( $_POST['deletepost'] ) )
@@ -43,24 +44,24 @@ if ( isset( $_POST['deletepost'] ) )
 elseif ( isset($_POST['wp-preview']) && 'dopreview' == $_POST['wp-preview'] )
 	$action = 'preview';
 
-$sendback = wp_get_referer();
+$sendback = wp_get_referer(); // 获取当前请求来源地址
 if ( ! $sendback ||
      strpos( $sendback, 'post.php' ) !== false ||
      strpos( $sendback, 'post-new.php' ) !== false ) {
-	if ( 'attachment' == $post_type ) {
+	if ( 'attachment' == $post_type ) {  // 如果是附件，操作完成后跳转回上传页面
 		$sendback = admin_url( 'upload.php' );
 	} else {
-		$sendback = admin_url( 'edit.php' );
+		$sendback = admin_url( 'edit.php' ); // 否则跳转到编辑文章页面
 		if ( ! empty( $post_type ) ) {
-			$sendback = add_query_arg( 'post_type', $post_type, $sendback );
+			$sendback = add_query_arg( 'post_type', $post_type, $sendback ); // 如果文章类型存在，则跳转到指定文章类型的编辑页面
 		}
 	}
-} else {
+} else { // 其它？？？
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), $sendback );
 }
 
 switch($action) {
-case 'post-quickdraft-save':
+case 'post-quickdraft-save': // 文章草稿快速保存
 	// Check nonce and capabilities
 	$nonce = $_REQUEST['_wpnonce'];
 	$error_msg = false;
@@ -68,37 +69,37 @@ case 'post-quickdraft-save':
 	// For output of the quickdraft dashboard widget
 	require_once ABSPATH . 'wp-admin/includes/dashboard.php';
 
-	if ( ! wp_verify_nonce( $nonce, 'add-post' ) )
+	if ( ! wp_verify_nonce( $nonce, 'add-post' ) ) // 验证随机码
 		$error_msg = __( 'Unable to submit this form, please refresh and try again.' );
 
-	if ( ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
+	if ( ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) { // 验证用户权限
 		exit;
 	}
 
 	if ( $error_msg )
-		return wp_dashboard_quick_press( $error_msg );
+		return wp_dashboard_quick_press( $error_msg ); // 快速草稿小构件显示和草稿创建。
 
-	$post = get_post( $_REQUEST['post_ID'] );
-	check_admin_referer( 'add-' . $post->post_type );
+	$post = get_post( $_REQUEST['post_ID'] ); // 获取文章对象
+	check_admin_referer( 'add-' . $post->post_type ); // 确保当前请求来自另一个管理页面。
 
 	$_POST['comment_status'] = get_default_comment_status( $post->post_type );
 	$_POST['ping_status']    = get_default_comment_status( $post->post_type, 'pingback' );
 
-	edit_post();
-	wp_dashboard_quick_press();
+	edit_post(); // 使用$_POST中的值更新存在的文章
+	wp_dashboard_quick_press(); // 快速草稿小构件显示和草稿创建
 	exit;
 
 case 'postajaxpost':
 case 'post':
 	check_admin_referer( 'add-' . $post_type );
-	$post_id = 'postajaxpost' == $action ? edit_post() : write_post();
-	redirect_post( $post_id );
+	$post_id = 'postajaxpost' == $action ? edit_post() : write_post(); // 使用来自"Write Post" 表单的$_POST信息创建一个新的文章
+	redirect_post( $post_id ); // 重定向到预览页面
 	exit();
 
-case 'edit':
+case 'edit': // 就是显示所有页面
 	$editing = true;
 
-	if ( empty( $post_id ) ) {
+	if ( empty( $post_id ) ) { // 如果没有指定文章id，则跳转到显示所有页面
 		wp_redirect( admin_url('post.php') );
 		exit();
 	}
@@ -146,6 +147,7 @@ case 'edit':
 
 	/**
 	 * Allows replacement of the editor.
+     * 允许替换编辑器
 	 *
 	 * @since 4.9.0
 	 *
@@ -156,19 +158,19 @@ case 'edit':
 		break;
 	}
 
-	if ( ! wp_check_post_lock( $post->ID ) ) {
+	if ( ! wp_check_post_lock( $post->ID ) ) { // 锁定编辑的文章
 		$active_post_lock = wp_set_post_lock( $post->ID );
 
-		if ( 'attachment' !== $post_type )
-			wp_enqueue_script('autosave');
+		if ( 'attachment' !== $post_type ) // 如果文章类型不是附件，则插入自动保存js脚本
+			wp_enqueue_script('autosave'); // 这个脚本位于include/js目录中
 	}
 
 	$title = $post_type_object->labels->edit_item;
-	$post = get_post($post_id, OBJECT, 'edit');
+	$post = get_post($post_id, OBJECT, 'edit'); // 获取文章对象
 
-	if ( post_type_supports($post_type, 'comments') ) {
+	if ( post_type_supports($post_type, 'comments') ) { // 如果支持评论，则插入管理评论的js脚本
 		wp_enqueue_script('admin-comments');
-		enqueue_comment_hotkeys_js();
+		enqueue_comment_hotkeys_js(); // 评论快捷键脚本
 	}
 
 	include( ABSPATH . 'wp-admin/edit-form-advanced.php' );
@@ -278,6 +280,7 @@ case 'preview':
 default:
 	/**
 	 * Fires for a given custom post action request.
+     * 触发指定的动作
 	 *
 	 * The dynamic portion of the hook name, `$action`, refers to the custom post action.
 	 *
@@ -287,7 +290,7 @@ default:
 	 */
 	do_action( "post_action_{$action}", $post_id );
 
-	wp_redirect( admin_url('edit.php') );
+	wp_redirect( admin_url('edit.php') ); // 上面动作都没有处理，则跳转到显示所有文章的列表页面。
 	exit();
 } // end switch
 include( ABSPATH . 'wp-admin/admin-footer.php' );

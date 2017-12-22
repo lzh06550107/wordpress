@@ -352,6 +352,7 @@ final class WP_Screen {
 
 	/**
 	 * Makes the screen object the current screen.
+     * 使该屏幕对象为当前屏幕
 	 *
 	 * @see set_current_screen()
 	 * @since 3.3.0
@@ -701,6 +702,7 @@ final class WP_Screen {
 
 	/**
 	 * Render the screen's help section.
+     * 渲染屏幕的帮助区域。
 	 *
 	 * This will trigger the deprecated filters for backward compatibility.
 	 *

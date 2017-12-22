@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration Template Header
+ * WordPress 管理界面模板头部
  *
  * @package WordPress
  * @subpackage Administration
@@ -29,7 +29,7 @@ global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow,
 if ( empty( $current_screen ) )
 	set_current_screen();
 
-get_admin_page_title();
+get_admin_page_title(); // 从菜单项中获取当前页面标题
 $title = esc_html( strip_tags( $title ) );
 
 if ( is_network_admin() ) {
@@ -39,7 +39,7 @@ if ( is_network_admin() ) {
 	/* translators: User dashboard screen title. 1: Network name */
 	$admin_title = sprintf( __( 'User Dashboard: %s' ), esc_html( get_network()->site_name ) );
 } else {
-	$admin_title = get_bloginfo( 'name' );
+	$admin_title = get_bloginfo( 'name' ); // 获取管理界面标题
 }
 
 if ( $admin_title == $title ) {
@@ -51,7 +51,7 @@ if ( $admin_title == $title ) {
 }
 
 /**
- * Filters the title tag content for an admin page.
+ * 过滤管理页面标题标签内容。
  *
  * @since 3.1.0
  *
@@ -60,9 +60,9 @@ if ( $admin_title == $title ) {
  */
 $admin_title = apply_filters( 'admin_title', $admin_title, $title );
 
-wp_user_settings();
+wp_user_settings(); // 保存用户设置到cookie中
 
-_wp_admin_html_begin();
+_wp_admin_html_begin(); // 显示管理界面的头部
 ?>
 <title><?php echo $admin_title; ?></title>
 <?php
@@ -88,7 +88,7 @@ var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 <?php
 
 /**
- * Enqueue scripts for all admin pages.
+ * 为所有的管理页面插入js脚本。
  *
  * @since 2.8.0
  *
@@ -98,6 +98,7 @@ do_action( 'admin_enqueue_scripts', $hook_suffix );
 
 /**
  * Fires when styles are printed for a specific admin page based on $hook_suffix.
+ * 为$hook_suffix 页面打印样式
  *
  * @since 2.6.0
  */
@@ -105,6 +106,7 @@ do_action( "admin_print_styles-{$hook_suffix}" );
 
 /**
  * Fires when styles are printed for all admin pages.
+ * 为所有管理页面打印样式
  *
  * @since 2.6.0
  */
@@ -112,6 +114,7 @@ do_action( 'admin_print_styles' );
 
 /**
  * Fires when scripts are printed for a specific admin page based on $hook_suffix.
+ * 为$hook_suffix 页面打印脚本
  *
  * @since 2.1.0
  */
@@ -119,6 +122,7 @@ do_action( "admin_print_scripts-{$hook_suffix}" );
 
 /**
  * Fires when scripts are printed for all admin pages.
+ * 为所有的管理页面打印脚本
  *
  * @since 2.1.0
  */
@@ -126,6 +130,7 @@ do_action( 'admin_print_scripts' );
 
 /**
  * Fires in head section for a specific admin page.
+ * 在一个特定的管理页面头部触发的动作。
  *
  * The dynamic portion of the hook, `$hook_suffix`, refers to the hook suffix
  * for the admin page.
@@ -136,11 +141,13 @@ do_action( "admin_head-{$hook_suffix}" );
 
 /**
  * Fires in head section for all admin pages.
+ * 为所有管理页面头部触发的动作。
  *
  * @since 2.1.0
  */
 do_action( 'admin_head' );
 
+// 组装body标签的类
 if ( get_user_setting('mfold') == 'f' )
 	$admin_body_class .= ' folded';
 
@@ -180,12 +187,13 @@ $admin_body_class .= ' no-customize-support no-svg';
 <?php
 /**
  * Filters the CSS classes for the body tag in the admin.
+ * 为管理界面的body标签的CSS类进行过滤。（只能增加，不能修改）
  *
  * This filter differs from the {@see 'post_class'} and {@see 'body_class'} filters
  * in two important ways:
  *
- * 1. `$classes` is a space-separated string of class names instead of an array.
- * 2. Not all core admin classes are filterable, notably: wp-admin, wp-core-ui,
+ * 1. `$classes` is a space-separated string of class names instead of an array.类的名称以空白分割
+ * 2. Not all core admin classes are filterable, notably: wp-admin, wp-core-ui,在
  *    and no-js cannot be removed.
  *
  * @since 2.3.0
@@ -196,23 +204,24 @@ $admin_body_classes = apply_filters( 'admin_body_class', '' );
 ?>
 <body class="wp-admin wp-core-ui no-js <?php echo $admin_body_classes . ' ' . $admin_body_class; ?>">
 <script type="text/javascript">
-	document.body.className = document.body.className.replace('no-js','js');
+	document.body.className = document.body.className.replace('no-js','js'); // 如果支持脚本，则会执行，否则不会
 </script>
 
 <?php
 // Make sure the customize body classes are correct as early as possible.
 if ( current_user_can( 'customize' ) ) {
-	wp_customize_support_script();
+	wp_customize_support_script(); // 输出定制功能检查脚本
 }
 ?>
 
 <div id="wpwrap">
-<?php require(ABSPATH . 'wp-admin/menu-header.php'); ?>
+<?php require(ABSPATH . 'wp-admin/menu-header.php'); // 输出菜单项 ?>
 <div id="wpcontent">
 
 <?php
 /**
  * Fires at the beginning of the content section in an admin page.
+ * 管理页面的内容开头部分触发动作。
  *
  * @since 3.0.0
  */
@@ -230,7 +239,7 @@ $current_screen->set_parentage( $parent_file );
 <div id="wpbody-content" aria-label="<?php esc_attr_e('Main content'); ?>" tabindex="0">
 <?php
 
-$current_screen->render_screen_meta();
+$current_screen->render_screen_meta(); //渲染屏幕帮助区域
 
 if ( is_network_admin() ) {
 	/**
@@ -249,6 +258,7 @@ if ( is_network_admin() ) {
 } else {
 	/**
 	 * Prints admin screen notices.
+     * 输出管理屏幕的通知。
 	 *
 	 * @since 3.1.0
 	 */
@@ -257,6 +267,7 @@ if ( is_network_admin() ) {
 
 /**
  * Prints generic admin screen notices.
+ * 打印普通管理屏幕通知
  *
  * @since 3.1.0
  */

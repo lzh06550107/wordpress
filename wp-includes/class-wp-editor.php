@@ -1,6 +1,7 @@
 <?php
 /**
- * Facilitates adding of the WordPress editor as used on the Write and Edit screens.
+ * 便于在写入和编辑屏幕上添加WordPress编辑器。
+ *
  *
  * @package WordPress
  * @since 3.3.0
@@ -34,6 +35,7 @@ final class _WP_Editors {
 
 	/**
 	 * Parse default arguments for the editor instance.
+     * 为编辑器实例解析提供的默认参数
 	 *
 	 * @static
 	 * @param string $editor_id ID for the current editor instance.
@@ -69,14 +71,14 @@ final class _WP_Editors {
 	public static function parse_settings( $editor_id, $settings ) {
 
 		/**
-		 * Filters the wp_editor() settings.
+         * 过滤wp_editor()的设置。
 		 *
 		 * @since 4.0.0
 		 *
 		 * @see _WP_Editors()::parse_settings()
 		 *
 		 * @param array  $settings  Array of editor arguments.
-		 * @param string $editor_id ID for the current editor instance.
+		 * @param string $editor_id ID for the current editor instance. 就是textarea的名称
 		 */
 		$settings = apply_filters( 'wp_editor_settings', $settings, $editor_id );
 
@@ -98,7 +100,7 @@ final class _WP_Editors {
 			'quicktags'           => true
 		) );
 
-		self::$this_tinymce = ( $set['tinymce'] && user_can_richedit() );
+		self::$this_tinymce = ( $set['tinymce'] && user_can_richedit() ); // 是否使用tinymce
 
 		if ( self::$this_tinymce ) {
 			if ( false !== strpos( $editor_id, '[' ) ) {
@@ -107,7 +109,7 @@ final class _WP_Editors {
 			}
 		}
 
-		self::$this_quicktags = (bool) $set['quicktags'];
+		self::$this_quicktags = (bool) $set['quicktags']; // 是否使用quicktags
 
 		if ( self::$this_tinymce )
 			self::$has_tinymce = true;
@@ -119,18 +121,18 @@ final class _WP_Editors {
 			self::$old_dfw_compat = true;
 		}
 
-		if ( empty( $set['editor_height'] ) )
+		if ( empty( $set['editor_height'] ) ) // 没有设置编辑器高度，则返回
 			return $set;
 
 		if ( 'content' === $editor_id && empty( $set['tinymce']['wp_autoresize_on'] ) ) {
 			// A cookie (set when a user resizes the editor) overrides the height.
 			$cookie = (int) get_user_setting( 'ed_size' );
 
-			if ( $cookie )
+			if ( $cookie ) // 通过cookie来保存用户当前编辑器的高度
 				$set['editor_height'] = $cookie;
 		}
 
-		if ( $set['editor_height'] < 50 )
+		if ( $set['editor_height'] < 50 ) // 编辑器高度最小为50，最大为5000
 			$set['editor_height'] = 50;
 		elseif ( $set['editor_height'] > 5000 )
 			$set['editor_height'] = 5000;
@@ -140,6 +142,7 @@ final class _WP_Editors {
 
 	/**
 	 * Outputs the HTML for a single instance of the editor.
+     * 输出一个单独编辑器实例的HTML
 	 *
 	 * @static
 	 * @param string $content The initial content of the editor.
@@ -150,21 +153,21 @@ final class _WP_Editors {
 		$set = self::parse_settings( $editor_id, $settings );
 		$editor_class = ' class="' . trim( esc_attr( $set['editor_class'] ) . ' wp-editor-area' ) . '"';
 		$tabindex = $set['tabindex'] ? ' tabindex="' . (int) $set['tabindex'] . '"' : '';
-		$default_editor = 'html';
+		$default_editor = 'html'; // 页面加载时使用的编辑器
 		$buttons = $autocomplete = '';
 		$editor_id_attr = esc_attr( $editor_id );
 
-		if ( $set['drag_drop_upload'] ) {
+		if ( $set['drag_drop_upload'] ) { // 是否支持拖曳上传
 			self::$drag_drop_upload = true;
 		}
 
-		if ( ! empty( $set['editor_height'] ) ) {
+		if ( ! empty( $set['editor_height'] ) ) { // 设置编辑器的高度
 			$height = ' style="height: ' . (int) $set['editor_height'] . 'px"';
 		} else {
 			$height = ' rows="' . (int) $set['textarea_rows'] . '"';
 		}
 
-		if ( ! current_user_can( 'upload_files' ) ) {
+		if ( ! current_user_can( 'upload_files' ) ) { // 当前用户是否支持上传
 			$set['media_buttons'] = false;
 		}
 
@@ -197,7 +200,7 @@ final class _WP_Editors {
 		echo '<div id="wp-' . $editor_id_attr . '-wrap" class="' . $wrap_class . '">';
 
 		if ( self::$editor_buttons_css ) {
-			wp_print_styles( 'editor-buttons' );
+			wp_print_styles( 'editor-buttons' ); // 显示样式
 			self::$editor_buttons_css = false;
 		}
 
@@ -212,12 +215,13 @@ final class _WP_Editors {
 				self::$has_medialib = true;
 
 				if ( ! function_exists( 'media_buttons' ) )
-					include( ABSPATH . 'wp-admin/includes/media.php' );
+					include( ABSPATH . 'wp-admin/includes/media.php' ); // 加载媒体api函数
 
 				echo '<div id="wp-' . $editor_id_attr . '-media-buttons" class="wp-media-buttons">';
 
 				/**
 				 * Fires after the default media button(s) are displayed.
+                 * 在媒体按钮显示之后触发该动作。
 				 *
 				 * @since 2.5.0
 				 *
@@ -245,6 +249,7 @@ final class _WP_Editors {
 
 		/**
 		 * Filters the HTML markup output that displays the editor.
+         * 过滤显示编辑器的HTML标记。
 		 *
 		 * @since 2.1.0
 		 *
@@ -262,6 +267,7 @@ final class _WP_Editors {
 
 		/**
 		 * Filters the default editor content.
+         * 过滤默认编辑器内容。
 		 *
 		 * @since 2.1.0
 		 *
@@ -272,6 +278,7 @@ final class _WP_Editors {
 		$content = apply_filters( 'the_editor_content', $content, $default_editor );
 
 		// Remove the filter as the next editor on the same page may not need it.
+        // 移除过滤器，因为下一个编辑器可能不需要它。
 		if ( self::$this_tinymce ) {
 			remove_filter( 'the_editor_content', 'format_for_editor' );
 		}
@@ -293,7 +300,7 @@ final class _WP_Editors {
 		printf( $the_editor, $content );
 		echo "\n</div>\n\n";
 
-		self::editor_settings( $editor_id, $set );
+		self::editor_settings( $editor_id, $set ); // 编辑器其它设置
 	}
 
 	/**
@@ -307,7 +314,7 @@ final class _WP_Editors {
 	public static function editor_settings($editor_id, $set) {
 		global $tinymce_version;
 
-		if ( empty(self::$first_init) ) {
+		if ( empty(self::$first_init) ) { // 第一次初始化，需要插入编辑器脚本
 			if ( is_admin() ) {
 				add_action( 'admin_print_footer_scripts', array( __CLASS__, 'editor_js' ), 50 );
 				add_action( 'admin_print_footer_scripts', array( __CLASS__, 'enqueue_scripts' ), 1 );
@@ -325,17 +332,17 @@ final class _WP_Editors {
 			);
 
 			if ( is_array($set['quicktags']) )
-				$qtInit = array_merge($qtInit, $set['quicktags']);
+				$qtInit = array_merge($qtInit, $set['quicktags']); // quicktag配置
 
-			if ( empty($qtInit['buttons']) )
+			if ( empty($qtInit['buttons']) ) // 默认带有的标签
 				$qtInit['buttons'] = 'strong,em,link,block,del,ins,img,ul,ol,li,code,more,close';
 
-			if ( $set['_content_editor_dfw'] ) {
+			if ( $set['_content_editor_dfw'] ) { // ？？
 				$qtInit['buttons'] .= ',dfw';
 			}
 
 			/**
-			 * Filters the Quicktags settings.
+             * 过滤Quicktags设置。
 			 *
 			 * @since 3.3.0
 			 *
@@ -359,7 +366,7 @@ final class _WP_Editors {
 				if ( $set['teeny'] ) {
 
 					/**
-					 * Filters the list of teenyMCE plugins.
+                     * 过滤tinyMCE插件列表。
 					 *
 					 * @since 2.7.0
 					 *
@@ -409,7 +416,7 @@ final class _WP_Editors {
 						'wpview',
 					);
 
-					if ( ! self::$has_medialib ) {
+					if ( ! self::$has_medialib ) { // 需要媒体库，则
 						$plugins[] = 'image';
 					}
 

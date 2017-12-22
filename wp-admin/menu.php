@@ -1,6 +1,6 @@
 <?php
 /**
- * Build Administration Menu.
+ * 构建管理菜单
  *
  * @package WordPress
  * @subpackage Administration
@@ -8,6 +8,7 @@
 
 /**
  * Constructs the admin menu.
+ * 构造管理菜单。
  *
  * The elements in the array are :
  *     0: Menu item name
@@ -20,14 +21,16 @@
  * @global array $menu
  */
 
+// 仪表盘菜单
 $menu[2] = array( __('Dashboard'), 'read', 'index.php', '', 'menu-top menu-top-first menu-icon-dashboard', 'menu-dashboard', 'dashicons-dashboard' );
 
+//仪表盘子菜单——首页
 $submenu[ 'index.php' ][0] = array( __('Home'), 'read', 'index.php' );
 
 if ( is_multisite() ) {
 	$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
 }
-
+//仪表盘子菜单——更新
 if ( ! is_multisite() || current_user_can( 'update_core' ) ) {
 	$update_data = wp_get_update_data();
 }
@@ -45,14 +48,17 @@ if ( ! is_multisite() ) {
 	$submenu[ 'index.php' ][10] = array( sprintf( __('Updates %s'), "<span class='update-plugins count-{$update_data['counts']['total']}'><span class='update-count'>" . number_format_i18n($update_data['counts']['total']) . "</span></span>" ), $cap, 'update-core.php');
 	unset( $cap );
 }
-
+// 分隔符
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
 // $menu[5] = Posts
 
+// 媒体菜单
 $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top menu-icon-media', 'menu-media', 'dashicons-admin-media' );
+    // 媒体菜单子菜单——媒体库
 	$submenu['upload.php'][5] = array( __('Library'), 'upload_files', 'upload.php');
 	/* translators: add new file */
+	// 媒体菜单子菜单——增加新的媒体
 	$submenu['upload.php'][10] = array( _x('Add New', 'file'), 'upload_files', 'media-new.php');
 	$i = 15;
 	foreach ( get_taxonomies_for_attachments( 'objects' ) as $tax ) {
@@ -63,15 +69,20 @@ $menu[10] = array( __('Media'), 'upload_files', 'upload.php', '', 'menu-top menu
 	}
 	unset( $tax, $i );
 
+	// 链接菜单
 $menu[15] = array( __('Links'), 'manage_links', 'link-manager.php', '', 'menu-top menu-icon-links', 'menu-links', 'dashicons-admin-links' );
+    // 链接菜单子菜单——所有链接
 	$submenu['link-manager.php'][5] = array( _x('All Links', 'admin menu'), 'manage_links', 'link-manager.php' );
 	/* translators: add new links */
+    // 链接菜单子菜单——增加新链接
 	$submenu['link-manager.php'][10] = array( _x('Add New', 'link'), 'manage_links', 'link-add.php' );
+	// 链接菜单子菜单——链接分类
 	$submenu['link-manager.php'][15] = array( __('Link Categories'), 'manage_categories', 'edit-tags.php?taxonomy=link_category' );
 
 // $menu[20] = Pages
 
 // Avoid the comment count query for users who cannot edit_posts.
+// 评论菜单项
 if ( current_user_can( 'edit_posts' ) ) {
 	$awaiting_mod = wp_count_comments();
 	$awaiting_mod = $awaiting_mod->moderated;
@@ -91,6 +102,7 @@ $submenu[ 'edit-comments.php' ][0] = array( __('All Comments'), 'edit_posts', 'e
 
 $_wp_last_object_menu = 25; // The index of the last top-level menu in the object menu group
 
+// 构建文章菜单，包括帖子和页面以及自定义类型
 $types = (array) get_post_types( array('show_ui' => true, '_builtin' => false, 'show_in_menu' => true ) );
 $builtin = array( 'post', 'page' );
 foreach ( array_merge( $builtin, $types ) as $ptype ) {
@@ -152,11 +164,12 @@ foreach ( array_merge( $builtin, $types ) as $ptype ) {
 	}
 }
 unset( $ptype, $ptype_obj, $ptype_for_id, $ptype_menu_position, $menu_icon, $i, $tax, $post_new_file );
-
+// 分割符
 $menu[59] = array( '', 'read', 'separator2', '', 'wp-menu-separator' );
 
 $appearance_cap = current_user_can( 'switch_themes') ? 'switch_themes' : 'edit_theme_options';
 
+// 外观菜单
 $menu[60] = array( __( 'Appearance' ), $appearance_cap, 'themes.php', '', 'menu-top menu-icon-appearance', 'menu-appearance', 'dashicons-admin-appearance' );
 	$submenu['themes.php'][5] = array( __( 'Themes' ), $appearance_cap, 'themes.php' );
 
@@ -186,7 +199,7 @@ if ( ! is_multisite() ) {
 	add_action('admin_menu', '_add_themes_utility_last', 101);
 }
 /**
- * Adds the (theme) 'Editor' link to the bottom of the Appearance menu.
+ * 增加主题编辑器链接到外观菜单的底部。
  *
  * @access private
  * @since 3.0.0
@@ -203,6 +216,7 @@ if ( ! is_multisite() && current_user_can( 'update_plugins' ) ) {
 	$count = "<span class='update-plugins count-{$update_data['counts']['plugins']}'><span class='plugin-count'>" . number_format_i18n($update_data['counts']['plugins']) . "</span></span>";
 }
 
+// 插件菜单
 $menu[65] = array( sprintf( __('Plugins %s'), $count ), 'activate_plugins', 'plugins.php', '', 'menu-top menu-icon-plugins', 'menu-plugins', 'dashicons-admin-plugins' );
 
 $submenu['plugins.php'][5]  = array( __('Installed Plugins'), 'activate_plugins', 'plugins.php' );
@@ -215,6 +229,7 @@ $submenu['plugins.php'][5]  = array( __('Installed Plugins'), 'activate_plugins'
 
 unset( $update_data );
 
+// 用户菜单
 if ( current_user_can('list_users') )
 	$menu[70] = array( __('Users'), 'list_users', 'users.php', '', 'menu-top menu-icon-users', 'menu-users', 'dashicons-admin-users' );
 else
@@ -240,6 +255,7 @@ if ( current_user_can('list_users') ) {
 	}
 }
 
+// 工具菜单
 $menu[75] = array( __('Tools'), 'edit_posts', 'tools.php', '', 'menu-top menu-icon-tools', 'menu-tools', 'dashicons-admin-tools' );
 	$submenu['tools.php'][5] = array( __('Available Tools'), 'edit_posts', 'tools.php' );
 	$submenu['tools.php'][10] = array( __('Import'), 'import', 'import.php' );
@@ -249,6 +265,7 @@ $menu[75] = array( __('Tools'), 'edit_posts', 'tools.php', '', 'menu-top menu-ic
 	if ( ! is_multisite() && defined('WP_ALLOW_MULTISITE') && WP_ALLOW_MULTISITE )
 		$submenu['tools.php'][50] = array(__('Network Setup'), 'setup_network', 'network.php');
 
+// 设置菜单
 $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 'menu-top menu-icon-settings', 'menu-settings', 'dashicons-admin-settings' );
 	$submenu['options-general.php'][10] = array(_x('General', 'settings screen'), 'manage_options', 'options-general.php');
 	$submenu['options-general.php'][15] = array(__('Writing'), 'manage_options', 'options-writing.php');
@@ -259,6 +276,7 @@ $menu[80] = array( __('Settings'), 'manage_options', 'options-general.php', '', 
 
 $_wp_last_utility_menu = 80; // The index of the last top-level menu in the utility menu group
 
+// 分隔符
 $menu[99] = array( '', 'read', 'separator-last', '', 'wp-menu-separator' );
 
 // Back-compat for old top-levels

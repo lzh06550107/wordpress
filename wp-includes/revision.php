@@ -213,6 +213,7 @@ function wp_save_post_revision( $post_id ) {
 
 /**
  * Retrieve the autosaved data of the specified post.
+ * 检索指定帖子的自动保存的数据。
  *
  * Returns a post object containing the information that was autosaved for the
  * specified post. If the optional $user_id is passed, returns the autosave for that user

@@ -696,6 +696,7 @@ function wp_clone( $object ) {
 
 /**
  * Whether the current request is for an administrative interface page.
+ * 是否当前请求是一个管理界面页面。
  *
  * Does not check if the user is an administrator; current_user_can()
  * for checking roles and capabilities.

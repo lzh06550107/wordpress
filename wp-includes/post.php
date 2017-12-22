@@ -859,7 +859,7 @@ function get_post_status_object( $post_status ) {
 }
 
 /**
- * Get a list of post statuses.
+ * 获取文章状态列表。
  *
  * @since 3.0.0
  *
@@ -1563,6 +1563,7 @@ function get_all_post_type_supports( $post_type ) {
 
 /**
  * Check a post type's support for a given feature.
+ * 检查文章类型是否支持给定的功能。
  *
  * @since 3.0.0
  *

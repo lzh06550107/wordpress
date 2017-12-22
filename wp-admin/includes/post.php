@@ -175,7 +175,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
 }
 
 /**
- * Update an existing post with values provided in $_POST.
+ * 使用$_POST中的值更新存在的文章。
  *
  * @since 1.5.0
  *
@@ -709,6 +709,7 @@ function post_exists($title, $content = '', $date = '') {
 
 /**
  * Creates a new post from the "Write Post" form using $_POST information.
+ * 使用来自"Write Post" 表单的$_POST信息创建一个新的文章。
  *
  * @since 2.1.0
  *
@@ -1446,6 +1447,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 
 /**
  * Check to see if the post is currently being edited by another user.
+ * 检查当前的文章是否被另一个用户编辑。
  *
  * @since 2.5.0
  *
@@ -1482,6 +1484,7 @@ function wp_check_post_lock( $post_id ) {
 
 /**
  * Mark the post as currently being edited by the current user
+ * 标记这个帖子被当前用户编辑。
  *
  * @since 2.5.0
  *
@@ -1824,6 +1827,7 @@ function wp_autosave( $post_data ) {
 
 /**
  * Redirect to previous page.
+ * 重定向到预览页面。
  *
  * @param int $post_id Optional. Post ID.
  */

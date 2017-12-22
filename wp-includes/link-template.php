@@ -3038,6 +3038,7 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 
 /**
  * Retrieves the URL to the admin area for the current site.
+ * 检索当前站点的后台URL。
  *
  * @since 2.6.0
  *

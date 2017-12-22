@@ -213,3 +213,13 @@
 [21-Dec-2017 13:25:08 UTC] PHP   6. call_user_func_array:{D:\php_source\wordpress\wp-includes\class-wp-hook.php:286}() D:\php_source\wordpress\wp-includes\class-wp-hook.php:286
 [21-Dec-2017 13:25:08 UTC] PHP   7. wp_update_themes() D:\php_source\wordpress\wp-includes\class-wp-hook.php:286
 [21-Dec-2017 13:25:08 UTC] PHP   8. trigger_error() D:\php_source\wordpress\wp-includes\update.php:526
+[21-Dec-2017 14:37:27 UTC] PHP Warning:  发生了预料之外的错误。WordPress.org或是此服务器的配置可能出了一些问题。如果您持续遇到困难，请试试<a href="http://zh-cn.forums.wordpress.org/">支持论坛</a>。 （WordPress无法建立到WordPress.org的安全连接，请联系您的服务器管理员。） in D:\php_source\wordpress\wp-includes\update.php on line 348
+[21-Dec-2017 14:37:27 UTC] PHP Stack trace:
+[21-Dec-2017 14:37:27 UTC] PHP   1. {main}() D:\php_source\wordpress\wp-admin\update-core.php:0
+[21-Dec-2017 14:37:27 UTC] PHP   2. require_once() D:\php_source\wordpress\wp-admin\update-core.php:10
+[21-Dec-2017 14:37:27 UTC] PHP   3. do_action($tag = *uninitialized*, $arg = *uninitialized*) D:\php_source\wordpress\wp-admin\admin.php:337
+[21-Dec-2017 14:37:27 UTC] PHP   4. WP_Hook->do_action($args = *uninitialized*) D:\php_source\wordpress\wp-includes\plugin.php:453
+[21-Dec-2017 14:37:27 UTC] PHP   5. WP_Hook->apply_filters($value = *uninitialized*, $args = *uninitialized*) D:\php_source\wordpress\wp-includes\class-wp-hook.php:310
+[21-Dec-2017 14:37:27 UTC] PHP   6. call_user_func_array:{D:\php_source\wordpress\wp-includes\class-wp-hook.php:286}(*uninitialized*, *uninitialized*) D:\php_source\wordpress\wp-includes\class-wp-hook.php:286
+[21-Dec-2017 14:37:27 UTC] PHP   7. wp_update_plugins($extra_stats = *uninitialized*) D:\php_source\wordpress\wp-includes\class-wp-hook.php:286
+[21-Dec-2017 14:37:27 UTC] PHP   8. trigger_error(*uninitialized*, *uninitialized*) D:\php_source\wordpress\wp-includes\update.php:348

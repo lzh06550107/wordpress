@@ -985,7 +985,7 @@ function show_admin_bar( $show ) {
 }
 
 /**
- * Determine whether the admin bar should be showing.
+ * 确定管理员bar是否显示。
  *
  * @since 3.1.0
  *
@@ -1006,7 +1006,7 @@ function is_admin_bar_showing() {
 	}
 
 	// Integrated into the admin.
-	if ( is_admin() )
+	if ( is_admin() ) // 管理界面必须显示
 		return true;
 
 	if ( ! isset( $show_admin_bar ) ) {
@@ -1018,7 +1018,7 @@ function is_admin_bar_showing() {
 	}
 
 	/**
-	 * Filters whether to show the admin bar.
+     * 过滤是否显示管理bar。
 	 *
 	 * Returning false to this hook is the recommended way to hide the admin bar.
 	 * The user's display preference is used for logged in users.

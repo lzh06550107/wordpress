@@ -1592,7 +1592,7 @@ function get_admin_page_title() {
 	$parent = $parent1 = get_admin_page_parent();
 
 	if ( empty ( $parent) ) {
-		foreach ( (array)$menu as $menu_array ) {
+		foreach ( (array)$menu as $menu_array ) { // 从菜单配置中获取当前页面的标题
 			if ( isset( $menu_array[3] ) ) {
 				if ( $menu_array[2] == $pagenow ) {
 					$title = $menu_array[3];
@@ -1674,7 +1674,7 @@ function get_plugin_page_hook( $plugin_page, $parent_page ) {
  * @param string $parent_page
  */
 function get_plugin_page_hookname( $plugin_page, $parent_page ) {
-	global $admin_page_hooks;
+	global $admin_page_hooks; // 前面菜单创建
 
 	$parent = get_admin_page_parent( $parent_page );
 

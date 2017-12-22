@@ -1,6 +1,6 @@
 <?php
 /**
- * Displays Administration Menu.
+ * 显示管理菜单。
  *
  * @package WordPress
  * @subpackage Administration
@@ -263,7 +263,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 
 _wp_menu_output( $menu, $submenu );
 /**
- * Fires after the admin menu has been output.
+ * 管理菜单输出后触发的动作。
  *
  * @since 2.5.0
  */

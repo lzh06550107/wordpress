@@ -459,6 +459,7 @@ function wp_network_dashboard_right_now() {
 
 /**
  * The Quick Draft widget display and creation of drafts.
+ * 快速草稿小构件显示和草稿创建。
  *
  * @since 3.8.0
  *

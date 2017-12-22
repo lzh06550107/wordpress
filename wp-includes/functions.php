@@ -1523,6 +1523,7 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
 
 /**
  * Retrieve referer from '_wp_http_referer' or HTTP referer.
+ * 检索当前请求的来源网页地址
  *
  * If it's the same as the current request URL, will return false.
  *

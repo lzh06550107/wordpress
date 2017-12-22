@@ -1,13 +1,13 @@
 <?php
 /**
- * Post advanced form for inclusion in the administration panels.
+ * 在管理面板中包含文章高级表单。
  *
  * @package WordPress
  * @subpackage Administration
  */
 
 // don't load directly
-if ( !defined('ABSPATH') )
+if ( !defined('ABSPATH') ) // 不能直接加载
 	die('-1');
 
 /**
@@ -20,19 +20,19 @@ global $post_type, $post_type_object, $post;
 if ( is_multisite() ) {
 	add_action( 'admin_footer', '_admin_notice_post_locked' );
 } else {
-	$check_users = get_users( array( 'fields' => 'ID', 'number' => 2 ) );
+	$check_users = get_users( array( 'fields' => 'ID', 'number' => 2 ) ); // 检查用户表中是否存在用户
 
-	if ( count( $check_users ) > 1 )
+	if ( count( $check_users ) > 1 ) // 如果用户数多于1个，则在管理页面底部增加通知文章锁定的通知
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
 
 	unset( $check_users );
 }
 
-wp_enqueue_script('post');
+wp_enqueue_script('post'); // 插入post.js文件
 $_wp_editor_expand = $_content_editor_dfw = false;
 
 /**
- * Filters whether to enable the 'expand' functionality in the post editor.
+ * 过滤是否开启文章编辑器的全屏功能。默认开启
  *
  * @since 4.0.0
  * @since 4.1.0 Added the `$post_type` parameter.
@@ -44,12 +44,13 @@ if ( post_type_supports( $post_type, 'editor' ) && ! wp_is_mobile() &&
 	 ! ( $is_IE && preg_match( '/MSIE [5678]/', $_SERVER['HTTP_USER_AGENT'] ) ) &&
 	 apply_filters( 'wp_editor_expand', true, $post_type ) ) {
 
-	wp_enqueue_script('editor-expand');
+	wp_enqueue_script('editor-expand'); // 插入编辑器扩展
 	$_content_editor_dfw = true;
-	$_wp_editor_expand = ( get_user_setting( 'editor_expand', 'on' ) === 'on' );
+	// 用户设置一般存储在cookie中
+	$_wp_editor_expand = ( get_user_setting( 'editor_expand', 'on' ) === 'on' ); // 没有值，则默认开启全屏
 }
 
-if ( wp_is_mobile() )
+if ( wp_is_mobile() ) // 如果是移动设备，则插入触摸事件映射到鼠标事件的库
 	wp_enqueue_script( 'jquery-touch-punch' );
 
 /**
@@ -57,8 +58,8 @@ if ( wp_is_mobile() )
  * @name $post_ID
  * @var int
  */
-$post_ID = isset($post_ID) ? (int) $post_ID : 0;
-$user_ID = isset($user_ID) ? (int) $user_ID : 0;
+$post_ID = isset($post_ID) ? (int) $post_ID : 0; // 文章ID
+$user_ID = isset($user_ID) ? (int) $user_ID : 0; // 用户ID
 $action = isset($action) ? $action : '';
 
 if ( $post_ID == get_option( 'page_for_posts' ) && empty( $post->post_content ) ) {
@@ -66,17 +67,18 @@ if ( $post_ID == get_option( 'page_for_posts' ) && empty( $post->post_content ) 
 	remove_post_type_support( $post_type, 'editor' );
 }
 
+// 如果当前主题支持缩略图且文章类型也支持，则支持缩略图
 $thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' );
 if ( ! $thumbnail_support && 'attachment' === $post_type && $post->post_mime_type ) {
-	if ( wp_attachment_is( 'audio', $post ) ) {
+	if ( wp_attachment_is( 'audio', $post ) ) { // 对于声音，则只要一方支持即可
 		$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
-	} elseif ( wp_attachment_is( 'video', $post ) ) {
+	} elseif ( wp_attachment_is( 'video', $post ) ) { // 对于视频，则只要一方支持即可
 		$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
 	}
 }
 
-if ( $thumbnail_support ) {
-	add_thickbox();
+if ( $thumbnail_support ) { // 缩略图需要的脚本和样式
+	add_thickbox(); // 增加thinkbox需要的脚本和样式
 	wp_enqueue_media( array( 'post' => $post_ID ) );
 }
 
@@ -86,7 +88,7 @@ add_action( 'admin_footer', '_local_storage_notice' );
 /*
  * @todo Document the $messages array(s).
  */
-$permalink = get_permalink( $post_ID );
+$permalink = get_permalink( $post_ID ); // 获取文章的永久链接
 if ( ! $permalink ) {
 	$permalink = '';
 }
@@ -96,9 +98,9 @@ $messages = array();
 $preview_post_link_html = $scheduled_post_link_html = $view_post_link_html = '';
 $preview_page_link_html = $scheduled_page_link_html = $view_page_link_html = '';
 
-$preview_url = get_preview_post_link( $post );
+$preview_url = get_preview_post_link( $post ); // 获取文章的预览链接
 
-$viewable = is_post_type_viewable( $post_type_object );
+$viewable = is_post_type_viewable( $post_type_object ); // 该类型的文章是否可以预览
 
 if ( $viewable ) {
 
@@ -175,6 +177,7 @@ $messages['attachment'] = array_fill( 1, 10, __( 'Media file updated.' ) ); // H
 
 /**
  * Filters the post updated messages.
+ * 过滤文章更新消息。
  *
  * @since 3.0.0
  *
@@ -193,13 +196,13 @@ if ( isset($_GET['message']) ) {
 
 $notice = false;
 $form_extra = '';
-if ( 'auto-draft' == $post->post_status ) {
+if ( 'auto-draft' == $post->post_status ) { // 文章是自动保存草稿
 	if ( 'edit' == $action )
 		$post->post_title = '';
 	$autosave = false;
 	$form_extra .= "<input type='hidden' id='auto_draft' name='auto_draft' value='1' />";
 } else {
-	$autosave = wp_get_post_autosave( $post_ID );
+	$autosave = wp_get_post_autosave( $post_ID ); // 检索文章自动保存版本
 }
 
 $form_action = 'editpost';
@@ -220,24 +223,27 @@ if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql
 	unset($autosave_field, $_autosave_field);
 }
 
-$post_type_object = get_post_type_object($post_type);
+$post_type_object = get_post_type_object($post_type); // 获取文章类型对象
 
 // All meta boxes should be defined and added before the first do_meta_boxes() call (or potentially during the do_meta_boxes action).
-require_once( ABSPATH . 'wp-admin/includes/meta-boxes.php' );
+require_once( ABSPATH . 'wp-admin/includes/meta-boxes.php' ); // 文章相关的元数据box定义
 
 
 $publish_callback_args = null;
+// 文章是版本类型且状态不是自动草稿
 if ( post_type_supports($post_type, 'revisions') && 'auto-draft' != $post->post_status ) {
-	$revisions = wp_get_post_revisions( $post_ID );
+	$revisions = wp_get_post_revisions( $post_ID ); // 获取版本对象
 
 	// We should aim to show the revisions meta box only when there are revisions.
 	if ( count( $revisions ) > 1 ) {
 		reset( $revisions ); // Reset pointer for key()
 		$publish_callback_args = array( 'revisions_count' => count( $revisions ), 'revision_id' => key( $revisions ) );
+		// 增加版本元数据box
 		add_meta_box('revisionsdiv', __('Revisions'), 'post_revisions_meta_box', null, 'normal', 'core');
 	}
 }
 
+// 如果是附件类型，
 if ( 'attachment' == $post_type ) {
 	wp_enqueue_script( 'image-edit' );
 	wp_enqueue_style( 'imgareaselect' );
@@ -251,10 +257,11 @@ if ( 'attachment' == $post_type ) {
 	add_meta_box( 'submitdiv', __( 'Publish' ), 'post_submit_meta_box', null, 'side', 'core', $publish_callback_args );
 }
 
+// 增加发布元数据box
 if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post_type, 'post-formats' ) )
 	add_meta_box( 'formatdiv', _x( 'Format', 'post format' ), 'post_format_meta_box', null, 'side', 'core' );
 
-// all taxonomies
+// all taxonomies，增加所有分类法相关的box，如文章形式、文章目录，文章标签等
 foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 	$taxonomy = get_taxonomy( $tax_name );
 	if ( ! $taxonomy->show_ui || false === $taxonomy->meta_box_cb )
@@ -270,19 +277,24 @@ foreach ( get_object_taxonomies( $post ) as $tax_name ) {
 	add_meta_box( $tax_meta_box_id, $label, $taxonomy->meta_box_cb, null, 'side', 'core', array( 'taxonomy' => $tax_name ) );
 }
 
+// 如果支持页面属性，则增加页面层级box
 if ( post_type_supports( $post_type, 'page-attributes' ) || count( get_page_templates( $post ) ) > 0 ) {
 	add_meta_box( 'pageparentdiv', $post_type_object->labels->attributes, 'page_attributes_meta_box', null, 'side', 'core' );
 }
 
+// 如果支持缩略图功能，则增加特色图片box
 if ( $thumbnail_support && current_user_can( 'upload_files' ) )
 	add_meta_box('postimagediv', esc_html( $post_type_object->labels->featured_image ), 'post_thumbnail_meta_box', null, 'side', 'low');
 
+// 如果支持摘要，则增加文章摘要box
 if ( post_type_supports($post_type, 'excerpt') )
 	add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', null, 'normal', 'core');
 
+// 如果支持，引用通告，则增加box，注意和pingback的区分
 if ( post_type_supports($post_type, 'trackbacks') )
 	add_meta_box('trackbacksdiv', __('Send Trackbacks'), 'post_trackback_meta_box', null, 'normal', 'core');
 
+// 如果支持自定义元数据，则增加box
 if ( post_type_supports($post_type, 'custom-fields') )
 	add_meta_box('postcustom', __('Custom Fields'), 'post_custom_meta_box', null, 'normal', 'core');
 
@@ -302,7 +314,7 @@ if ( comments_open( $post ) || pings_open( $post ) || post_type_supports( $post_
 	add_meta_box( 'commentstatusdiv', __( 'Discussion' ), 'post_comment_status_meta_box', null, 'normal', 'core' );
 }
 
-$stati = get_post_stati( array( 'public' => true ) );
+$stati = get_post_stati( array( 'public' => true ) ); // 获取文章状态列表
 if ( empty( $stati ) ) {
 	$stati = array( 'publish' );
 }
@@ -316,6 +328,7 @@ if ( in_array( get_post_status( $post ), $stati ) ) {
 	}
 }
 
+// 如果文章不支持等待且当前用户没有发布权限，则
 if ( ! ( 'pending' == get_post_status( $post ) && ! current_user_can( $post_type_object->cap->publish_posts ) ) )
 	add_meta_box('slugdiv', __('Slug'), 'post_slug_meta_box', null, 'normal', 'core');
 
@@ -324,7 +337,7 @@ if ( post_type_supports( $post_type, 'author' ) && current_user_can( $post_type_
 }
 
 /**
- * Fires after all built-in meta boxes have been added.
+ * 当所有内置的元数据box增加完成后触发的动作。
  *
  * @since 3.0.0
  *
@@ -337,6 +350,10 @@ do_action( 'add_meta_boxes', $post_type, $post );
  * Fires after all built-in meta boxes have been added, contextually for the given post type.
  *
  * The dynamic portion of the hook, `$post_type`, refers to the post type of the post.
+ *
+ * 已经添加了所有内置的元数据box之后，对于给定的文章类型动作进行触发。
+ *
+ * 钩子的动态部分`$ post_type`指的是帖子的帖子类型。
  *
  * @since 3.0.0
  *
@@ -361,11 +378,12 @@ do_action( 'do_meta_boxes', $post_type, 'advanced', $post );
 /** This action is documented in wp-admin/edit-form-advanced.php */
 do_action( 'do_meta_boxes', $post_type, 'side', $post );
 
-add_screen_option('layout_columns', array('max' => 2, 'default' => 2) );
+add_screen_option('layout_columns', array('max' => 2, 'default' => 2) ); // 以两列布局
 
 if ( 'post' == $post_type ) {
 	$customize_display = '<p>' . __('The title field and the big Post Editing Area are fixed in place, but you can reposition all the other boxes using drag and drop. You can also minimize or expand them by clicking the title bar of each box. Use the Screen Options tab to unhide more boxes (Excerpt, Send Trackbacks, Custom Fields, Discussion, Slug, Author) or to choose a 1- or 2-column layout for this screen.') . '</p>';
 
+	// 为当前屏幕添加“自定义显示方式”帮助面板
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'customize-display',
 		'title'   => __('Customizing This Display'),
@@ -380,12 +398,14 @@ if ( 'post' == $post_type ) {
 	$title_and_editor .= '<p>' . __( 'You can enable distraction-free writing mode using the icon to the right. This feature is not available for old browsers or devices with small screens, and requires that the full-height editor be enabled in Screen Options.' ) . '</p>';
 	$title_and_editor .= '<p>' . __( 'Keyboard users: When you&#8217;re working in the visual editor, you can use <kbd>Alt + F10</kbd> to access the toolbar.' ) . '</p>';
 
+	// 为当前屏幕添加“标题和文章编辑器”帮助面板
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'title-post-editor',
 		'title'   => __('Title and Post Editor'),
 		'content' => $title_and_editor,
 	) );
 
+	// 为当前屏幕添加“”帮助面板
 	get_current_screen()->set_help_sidebar(
 			'<p>' . sprintf(__('You can also create posts with the <a href="%s">Press This bookmarklet</a>.'), 'tools.php') . '</p>' .
 			'<p><strong>' . __('For more information:') . '</strong></p>' .
@@ -480,6 +500,7 @@ if ( 'post' == $post_type ) {
 	) );
 }
 
+// 包含管理界面头部
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
@@ -542,7 +563,7 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 
 <?php
 /**
- * Fires at the beginning of the edit form.
+ * 编辑表单开头处触发该动作。
  *
  * At this point, the required hidden fields and nonces have already been output.
  *
@@ -562,6 +583,7 @@ do_action( 'edit_form_top', $post ); ?>
 	<?php
 	/**
 	 * Filters the title field placeholder text.
+     * 过滤标题字段的提示文本。
 	 *
 	 * @since 3.1.0
 	 *
@@ -576,6 +598,7 @@ do_action( 'edit_form_top', $post ); ?>
 <?php
 /**
  * Fires before the permalink field in the edit form.
+ * 在编辑表单的永久链接字段之前触发动作。
  *
  * @since 4.1.0
  *
@@ -619,6 +642,7 @@ wp_nonce_field( 'samplepermalink', 'samplepermalinknonce', false );
 }
 /**
  * Fires after the title field.
+ * 标题字段完成后触发动作。
  *
  * @since 3.5.0
  *
@@ -704,14 +728,14 @@ else {
 }
 
 
-do_meta_boxes($post_type, 'side', $post);
+do_meta_boxes($post_type, 'side', $post); // 在侧边栏输出元数据box
 
 ?>
 </div>
 <div id="postbox-container-2" class="postbox-container">
 <?php
 
-do_meta_boxes(null, 'normal', $post);
+do_meta_boxes(null, 'normal', $post); // 在编辑器下面输出元数据box
 
 if ( 'page' == $post_type ) {
 	/**
@@ -758,7 +782,7 @@ do_action( 'dbx_post_sidebar', $post );
 
 <?php
 if ( post_type_supports( $post_type, 'comments' ) )
-	wp_comment_reply();
+	wp_comment_reply(); // 输出当前文章的评论
 ?>
 
 <?php if ( ! wp_is_mobile() && post_type_supports( $post_type, 'title' ) && '' === $post->post_title ) : ?>

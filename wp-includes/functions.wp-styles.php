@@ -27,6 +27,7 @@ function wp_styles() {
 
 /**
  * Display styles that are in the $handles queue.
+ * 显示在队列中的样式。
  *
  * Passing an empty array to $handles prints the queue,
  * passing an array with one string prints that style,

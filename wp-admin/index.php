@@ -10,7 +10,7 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 /** Load WordPress dashboard API */
-require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
+require_once(ABSPATH . 'wp-admin/includes/dashboard.php'); // 定义dashboard相关的函数
 
 wp_dashboard_setup();
 

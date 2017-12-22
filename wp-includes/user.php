@@ -544,6 +544,7 @@ function delete_user_option( $user_id, $option_name, $global = false ) {
 
 /**
  * Retrieve list of users matching criteria.
+ * 检索符合标准的用户列表。
  *
  * @since 3.1.0
  *

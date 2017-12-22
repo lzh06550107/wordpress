@@ -1060,8 +1060,9 @@ endif;
 if ( !function_exists('check_admin_referer') ) :
 /**
  * Makes sure that a user was referred from another admin page.
+ * 确保当前请求来自另一个管理页面。
  *
- * To avoid security exploits.
+ * To avoid security exploits.为了避免安全漏洞
  *
  * @since 1.2.0
  *
